@@ -82,7 +82,7 @@ export default async function ProductsAdmin() {
                   </td>
                   <td className="p-4 text-sm text-gray-800">
                     <div className="font-medium line-clamp-1">{prod.name}</div>
-                    <div className="text-gray-400 text-xs">{prod.slug}</div>
+
                   </td>
                   <td className="p-4 text-sm text-gray-600">{prod.category.name}</td>
                   <td className="p-4 text-sm text-gray-600">{new Intl.NumberFormat('vi-VN').format(prod.price)}đ</td>
