@@ -42,7 +42,7 @@ export default function ProductDetailClient({ product, related }: { product: Pro
         </header>
 
         {/* Hero Image */}
-        <div className="relative aspect-[16/9] md:aspect-[21/9] w-full bg-[#f8f9fa] rounded-2xl overflow-hidden shadow-sm mb-16">
+        <div className="relative aspect-square w-full max-w-2xl mx-auto bg-[#f8f9fa] rounded-2xl overflow-hidden shadow-sm mb-16">
           {displayImages[0] ? (
             <Image src={displayImages[0]} alt={product.name} fill className="object-cover" priority sizes="100vw" />
           ) : (
@@ -69,6 +69,34 @@ export default function ProductDetailClient({ product, related }: { product: Pro
                   <Image src={img} alt={`${product.name} detail ${i + 1}`} fill className="object-cover" />
                 </div>
               ))}
+            </div>
+          )}
+          {/* Size & Price Charts Section */}
+          {((product as any).sizeChartImage || (product as any).priceChartImage || (product as any).embroideryNote) && (
+            <div className="my-24 space-y-12">
+              {/* Size Chart */}
+              {(product as any).sizeChartImage && (
+                <div className="relative w-full aspect-[4/3] sm:aspect-[2/1] bg-gray-50 rounded-2xl overflow-hidden border border-gray-200 flex items-center justify-center shadow-inner">
+                  <Image src={(product as any).sizeChartImage} alt="Bảng Size" fill className="object-contain" />
+                </div>
+              )}
+
+              {/* Embroidery Note */}
+              {(product as any).embroideryNote && (
+                <div className="bg-[#f0f5fc] text-[#0d3b66] p-8 md:p-10 rounded-2xl shadow-sm border border-[#e1ebf5]">
+                  <h4 className="font-serif text-xl md:text-2xl mb-6 font-bold text-center">Lưu ý vùng thêu</h4>
+                  <div className="font-sans text-sm md:text-base leading-loose max-w-3xl mx-auto whitespace-pre-line font-medium">
+                    {(product as any).embroideryNote}
+                  </div>
+                </div>
+              )}
+
+              {/* Price Chart */}
+              {(product as any).priceChartImage && (
+                <div className="relative w-full aspect-[4/3] sm:aspect-[2/1] bg-gray-50 rounded-2xl overflow-hidden border border-gray-200 flex items-center justify-center shadow-inner">
+                  <Image src={(product as any).priceChartImage} alt="Bảng Giá" fill className="object-contain" />
+                </div>
+              )}
             </div>
           )}
 

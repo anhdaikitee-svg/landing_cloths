@@ -1,16 +1,44 @@
 'use server'
 
-import { prisma } from '@/lib/prisma'
 import { revalidatePath } from 'next/cache'
-import { supabase } from '@/lib/supabase'
-import { getServerSession } from 'next-auth'
+import { prisma } from '@/lib/prisma'
 import { authOptions } from '@/lib/auth'
+import { getServerSession } from 'next-auth'
+import { PutObjectCommand } from '@aws-sdk/client-s3'
+import { r2 } from '@/lib/s3'
 import { slugify } from '@/lib/utils'
 
 async function checkAdmin() {
   const session = await getServerSession(authOptions)
   if (session?.user?.role !== 'ADMIN') {
     throw new Error('Unauthorized')
+  }
+}
+
+async function uploadToR2(file: File): Promise<string | null> {
+  if (!file || file.size === 0) return null
+  const bytes = await file.arrayBuffer()
+  const buffer = Buffer.from(bytes)
+
+  const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1E9)}`
+  const ext = file.name.split('.').pop() || 'jpg'
+  const filename = `products/${uniqueSuffix}.${ext}`
+
+  const { R2_BUCKET_NAME, R2_PUBLIC_URL } = process.env
+
+  const command = new PutObjectCommand({
+    Bucket: R2_BUCKET_NAME,
+    Key: filename,
+    Body: buffer,
+    ContentType: file.type || 'image/jpeg',
+  })
+
+  try {
+    await r2.send(command)
+    return `${R2_PUBLIC_URL}/${filename}`
+  } catch (error) {
+    console.error('R2 upload error:', error)
+    return null
   }
 }
 
@@ -48,31 +76,18 @@ export async function createProduct(formData: FormData) {
 
   if (imageFiles && imageFiles.length > 0) {
     for (const file of imageFiles) {
-      if (file.size === 0) continue
-      const bytes = await file.arrayBuffer()
-      const buffer = Buffer.from(bytes)
-
-      const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1E9)}`
-      const ext = file.name.split('.').pop() || 'jpg'
-      const filename = `products/${uniqueSuffix}.${ext}`
-
-      const { data, error } = await supabase.storage
-        .from('uploads')
-        .upload(filename, buffer, {
-          contentType: file.type || 'image/jpeg',
-          cacheControl: '3600',
-          upsert: false
-        })
-
-      if (error) {
-        console.error('Supabase upload error:', error)
-        continue
-      }
-
-      const { data: publicUrlData } = supabase.storage.from('uploads').getPublicUrl(filename)
-      imageUrls.push(publicUrlData.publicUrl)
+      const url = await uploadToR2(file)
+      if (url) imageUrls.push(url)
     }
   }
+
+  const sizeChartFile = formData.get('sizeChartImage') as File
+  const sizeChartImage = await uploadToR2(sizeChartFile)
+
+  const priceChartFile = formData.get('priceChartImage') as File
+  const priceChartImage = await uploadToR2(priceChartFile)
+
+  const embroideryNote = formData.get('embroideryNote') as string
 
   await prisma.product.create({
     data: {
@@ -82,6 +97,9 @@ export async function createProduct(formData: FormData) {
       price,
       categoryId,
       images: imageUrls,
+      sizeChartImage,
+      priceChartImage,
+      embroideryNote,
       isActive: true,
     }
   })
@@ -121,37 +139,31 @@ export async function updateProduct(id: string, formData: FormData) {
 
   if (imageFiles && imageFiles.length > 0) {
     for (const file of imageFiles) {
-      if (file.size === 0) continue
-      const bytes = await file.arrayBuffer()
-      const buffer = Buffer.from(bytes)
-
-      const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1E9)}`
-      const ext = file.name.split('.').pop() || 'jpg'
-      const filename = `products/${uniqueSuffix}.${ext}`
-
-      const { data, error } = await supabase.storage
-        .from('uploads')
-        .upload(filename, buffer, {
-          contentType: file.type || 'image/jpeg',
-          cacheControl: '3600',
-          upsert: false
-        })
-
-      if (error) {
-        console.error('Supabase upload error:', error)
-        continue
-      }
-
-      const { data: publicUrlData } = supabase.storage.from('uploads').getPublicUrl(filename)
-      imageUrls.push(publicUrlData.publicUrl)
+      const url = await uploadToR2(file)
+      if (url) imageUrls.push(url)
     }
   }
+
+  const embroideryNote = formData.get('embroideryNote') as string
 
   const updateData: any = {
     name,
     description,
     price,
     categoryId,
+    embroideryNote,
+  }
+
+  const sizeChartFile = formData.get('sizeChartImage') as File
+  const sizeChartImage = await uploadToR2(sizeChartFile)
+  if (sizeChartImage) {
+    updateData.sizeChartImage = sizeChartImage
+  }
+
+  const priceChartFile = formData.get('priceChartImage') as File
+  const priceChartImage = await uploadToR2(priceChartFile)
+  if (priceChartImage) {
+    updateData.priceChartImage = priceChartImage
   }
   
   // Only update images if new ones are uploaded

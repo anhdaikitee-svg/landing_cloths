@@ -42,8 +42,20 @@ export default async function ProductsAdmin() {
               <input type="file" name="images" multiple accept="image/*" required className="w-full border rounded px-3 py-2 text-sm bg-white" />
             </div>
             <div>
+              <label className="block text-sm text-gray-600 mb-1">Ảnh Bảng Size (Tùy chọn)</label>
+              <input type="file" name="sizeChartImage" accept="image/*" className="w-full border rounded px-3 py-2 text-sm bg-white" />
+            </div>
+            <div>
+              <label className="block text-sm text-gray-600 mb-1">Ảnh Bảng Giá (Tùy chọn)</label>
+              <input type="file" name="priceChartImage" accept="image/*" className="w-full border rounded px-3 py-2 text-sm bg-white" />
+            </div>
+            <div>
               <label className="block text-sm text-gray-600 mb-1">Mô tả</label>
               <textarea name="description" rows={4} className="w-full border rounded px-3 py-2 text-sm" />
+            </div>
+            <div>
+              <label className="block text-sm text-gray-600 mb-1">Lưu ý vùng thêu</label>
+              <textarea name="embroideryNote" rows={3} placeholder="VD: Vùng thêu ngực: Kích thước tối đa..." className="w-full border rounded px-3 py-2 text-sm" />
             </div>
             <button type="submit" className="w-full bg-brand-dark text-white py-2 rounded text-sm hover:bg-black transition flex items-center justify-center gap-2">
               <Plus size={16} /> Thêm Sản Phẩm

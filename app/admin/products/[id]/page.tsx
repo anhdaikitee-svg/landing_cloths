@@ -61,8 +61,32 @@ export default async function EditProductPage({ params }: { params: { id: string
           </div>
 
           <div>
+            <label className="block text-sm text-gray-600 mb-1">Ảnh Bảng Size (Tải lên ảnh mới để thay đổi, bỏ trống để giữ ảnh cũ)</label>
+            {(product as any).sizeChartImage && (
+              <div className="w-16 h-16 relative rounded border overflow-hidden mb-2">
+                <Image src={(product as any).sizeChartImage} alt="" fill className="object-cover" sizes="64px"/>
+              </div>
+            )}
+            <input type="file" name="sizeChartImage" accept="image/*" className="w-full border rounded px-3 py-2 text-sm bg-white" />
+          </div>
+
+          <div>
+            <label className="block text-sm text-gray-600 mb-1">Ảnh Bảng Giá (Tải lên ảnh mới để thay đổi, bỏ trống để giữ ảnh cũ)</label>
+            {(product as any).priceChartImage && (
+              <div className="w-16 h-16 relative rounded border overflow-hidden mb-2">
+                <Image src={(product as any).priceChartImage} alt="" fill className="object-cover" sizes="64px"/>
+              </div>
+            )}
+            <input type="file" name="priceChartImage" accept="image/*" className="w-full border rounded px-3 py-2 text-sm bg-white" />
+          </div>
+
+          <div>
             <label className="block text-sm text-gray-600 mb-1">Mô tả</label>
             <textarea name="description" defaultValue={product.description || ''} rows={4} className="w-full border rounded px-3 py-2 text-sm" />
+          </div>
+          <div>
+            <label className="block text-sm text-gray-600 mb-1">Lưu ý vùng thêu</label>
+            <textarea name="embroideryNote" defaultValue={(product as any).embroideryNote || ''} rows={3} placeholder="VD: Vùng thêu ngực: Kích thước tối đa..." className="w-full border rounded px-3 py-2 text-sm" />
           </div>
           <div className="pt-4 flex gap-4">
             <Link href="/admin/products" className="flex-1 text-center py-2 border rounded text-sm text-gray-600 hover:bg-gray-50">

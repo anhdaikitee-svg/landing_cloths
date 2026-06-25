@@ -63,7 +63,10 @@ model Product {
   description String?        @db.Text
   price       Float
   salePrice   Float?
-  images      String[]       // Ảnh chính
+  images          String[]       // Ảnh chính
+  sizeChartImage  String?    // Ảnh bảng size
+  priceChartImage String?    // Ảnh bảng giá
+  embroideryNote  String?    @db.Text // Lưu ý vùng thêu
   categoryId  String
   category    Category       @relation(fields: [categoryId], references: [id])
   colors      ProductColor[] // Các biến thể màu
