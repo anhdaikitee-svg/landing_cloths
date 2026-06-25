@@ -38,10 +38,6 @@ export default function ProductCard({ product, layout = 'grid' }: { product: Pro
              {product.description || 'Khám phá chi tiết tác phẩm độc bản với phong cách hiện đại.'}
            </p>
            <div className="flex items-center gap-4 text-white text-sm font-sans">
-             {product.price !== undefined && (
-               <span className="font-bold text-lg md:text-xl">{new Intl.NumberFormat('vi-VN').format(product.price)}đ</span>
-             )}
-             <span className="text-gray-400">|</span>
              <span className="uppercase tracking-widest text-xs font-medium hover:text-brand-gold transition-colors">Đọc Tiếp →</span>
            </div>
         </div>
@@ -70,9 +66,7 @@ export default function ProductCard({ product, layout = 'grid' }: { product: Pro
             {product.description || 'Chi tiết sản phẩm đang được cập nhật. Nhấn để xem thêm thông tin và hình ảnh thực tế của sản phẩm.'}
           </p>
           <div className="mt-auto flex items-center justify-between">
-            {product.price !== undefined && (
-               <span className="font-bold text-lg text-brand-dark">{new Intl.NumberFormat('vi-VN').format(product.price)}đ</span>
-            )}
+
             <span className="text-xs uppercase tracking-widest text-gray-400 font-medium group-hover:text-brand-gold transition-colors">Đọc Tiếp</span>
           </div>
         </div>
@@ -106,11 +100,7 @@ export default function ProductCard({ product, layout = 'grid' }: { product: Pro
           {product.description || 'Chi tiết sản phẩm đang được cập nhật...'}
         </p>
         <div className="mt-auto pt-4 border-t border-gray-100 flex items-center justify-between">
-          {product.price !== undefined && (
-            <p className="text-base font-bold text-brand-dark">
-              {new Intl.NumberFormat('vi-VN').format(product.price)}đ
-            </p>
-          )}
+
           <span className="text-[10px] uppercase tracking-[0.2em] font-medium text-gray-400 group-hover:text-brand-gold transition-colors">
             Chi Tiết
           </span>

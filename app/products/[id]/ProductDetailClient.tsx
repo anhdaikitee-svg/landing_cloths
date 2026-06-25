@@ -43,10 +43,6 @@ export default function ProductDetailClient({ product, related }: { product: Pro
           </h1>
           <div className="flex items-center justify-center gap-4 text-gray-500 font-sans text-sm">
             <span>Viết bởi <span className="font-bold text-brand-dark">Ban Biên Tập</span></span>
-            <span>|</span>
-            {product.price !== undefined && (
-               <span className="font-bold text-brand-dark text-lg">{new Intl.NumberFormat('vi-VN').format(product.price)}đ</span>
-            )}
           </div>
         </header>
 

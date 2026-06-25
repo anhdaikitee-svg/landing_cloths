@@ -42,10 +42,7 @@ export default async function EditProductPage({ params }: { params: { id: string
               {categories.map((c: any) => <option key={c.id} value={c.id}>{c.name}</option>)}
             </select>
           </div>
-          <div>
-            <label className="block text-sm text-gray-600 mb-1">Giá Bán</label>
-            <input type="number" name="price" defaultValue={product.price} required className="w-full border rounded px-3 py-2 text-sm" />
-          </div>
+
 
           <div>
             <label className="block text-sm text-gray-600 mb-1">Ảnh Hiện Tại</label>
