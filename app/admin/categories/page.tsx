@@ -7,14 +7,19 @@ import CategoryModal from './CategoryModal'
 export default async function CategoriesAdmin() {
   const categories = await prisma.category.findMany({
     orderBy: { name: 'asc' },
-    include: { _count: { select: { products: true } } }
+    include: { 
+      _count: { select: { products: true } },
+      parent: true
+    }
   })
+
+  const rootCategories = categories.filter((c: any) => !c.parentId)
 
   return (
     <div>
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-2xl font-bold text-gray-800">Quản Lý Danh Mục</h1>
-        <CategoryModal createCategoryAction={createCategory} />
+        <CategoryModal createCategoryAction={createCategory} parentCategories={rootCategories} />
       </div>
 
       <div className="bg-white rounded-lg shadow-sm overflow-hidden">
@@ -31,6 +36,7 @@ export default async function CategoriesAdmin() {
               <tr key={cat.id} className="hover:bg-gray-50">
                 <td className="p-4 text-sm text-gray-800 font-medium">
                   {cat.name}
+                  {cat.parent && <span className="block text-xs text-gray-500 mt-1">Thuộc: {cat.parent.name}</span>}
                 </td>
                 <td className="p-4 text-sm text-gray-500">{cat._count.products}</td>
                 <td className="p-4 text-right">

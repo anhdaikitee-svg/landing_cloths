@@ -3,8 +3,7 @@
 import { useState } from 'react'
 import { Plus, X } from 'lucide-react'
 
-// Pass the server action as a prop since we are in a Client Component
-export default function CategoryModal({ createCategoryAction }: { createCategoryAction: (formData: FormData) => Promise<void> }) {
+export default function CategoryModal({ createCategoryAction, parentCategories = [] }: { createCategoryAction: (formData: FormData) => Promise<void>, parentCategories?: any[] }) {
   const [isOpen, setIsOpen] = useState(false)
 
   const handleSubmit = async (formData: FormData) => {
@@ -41,6 +40,16 @@ export default function CategoryModal({ createCategoryAction }: { createCategory
                   className="w-full border rounded px-3 py-2 text-sm focus:ring-1 focus:ring-brand-dark outline-none" 
                   placeholder="VD: Áo Sơ Mi" 
                 />
+              </div>
+              
+              <div>
+                <label className="block text-sm text-gray-600 mb-1">Danh Mục Cha (Tùy chọn)</label>
+                <select name="parentId" className="w-full border rounded px-3 py-2 text-sm focus:ring-1 focus:ring-brand-dark outline-none bg-white">
+                  <option value="">-- Không có (Danh mục gốc) --</option>
+                  {parentCategories.map(c => (
+                    <option key={c.id} value={c.id}>{c.name}</option>
+                  ))}
+                </select>
               </div>
 
               <div className="pt-4 flex justify-end gap-3">

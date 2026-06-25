@@ -5,17 +5,9 @@ import { useState, useEffect } from 'react'
 import { Search, Menu, X, MapPin, User as UserIcon } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 
-const NAV_CATEGORIES = [
-  { label: 'TẤT CẢ', href: '/products' },
-  { label: 'ÁO', href: '/products?category=ao' },
-  { label: 'QUẦN', href: '/products?category=quan' },
-  { label: 'MŨ', href: '/products?category=mu' },
-  { label: 'TẤT', href: '/products?category=tat' },
-  { label: 'PHỤ KIỆN', href: '/products?category=phu-kien' },
-  { label: 'VỀ CHÚNG TÔI', href: '/about' },
-]
 
-export default function Header({ session, siteName, siteLogo }: { session?: any; siteName?: string; siteLogo?: string }) {
+
+export default function Header({ session, siteName, siteLogo, categories = [] }: { session?: any; siteName?: string; siteLogo?: string; categories?: any[] }) {
   const pathname = usePathname()
   const [isScrolled, setIsScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -27,6 +19,16 @@ export default function Header({ session, siteName, siteLogo }: { session?: any;
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
+
+  const dynamicNav = [
+    { label: 'TẤT CẢ', href: '/products', children: [] },
+    ...categories.map(c => ({
+      label: c.name.toUpperCase(),
+      href: `/products?category=${c.slug}`,
+      children: c.children || []
+    })),
+    { label: 'VỀ CHÚNG TÔI', href: '/about', children: [] }
+  ]
 
   if (pathname?.startsWith('/admin')) {
     return null
@@ -66,15 +68,29 @@ export default function Header({ session, siteName, siteLogo }: { session?: any;
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex flex-1 justify-center gap-8">
-          {NAV_CATEGORIES.map((cat) => (
-            <Link
-              key={cat.href}
-              href={cat.href}
-              className="text-xs font-medium tracking-widest text-brand-dark hover:text-brand-gold transition-colors"
-            >
-              {cat.label}
-            </Link>
+        <nav className="hidden md:flex flex-1 justify-center gap-8 items-center">
+          {dynamicNav.map((cat) => (
+            <div key={cat.href} className="relative group py-4">
+              <Link
+                href={cat.href}
+                className="text-xs font-medium tracking-widest text-brand-dark hover:text-brand-gold transition-colors"
+              >
+                {cat.label}
+              </Link>
+              {cat.children.length > 0 && (
+                <div className="absolute top-full left-1/2 -translate-x-1/2 bg-white shadow-md border border-gray-100 py-3 rounded min-w-[200px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                  {cat.children.map((child: any) => (
+                    <Link
+                      key={child.slug}
+                      href={`/products?category=${child.slug}`}
+                      className="block px-6 py-2 text-xs text-gray-600 hover:text-brand-gold hover:bg-gray-50 transition-colors"
+                    >
+                      {child.name}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
           ))}
         </nav>
 
@@ -124,15 +140,30 @@ export default function Header({ session, siteName, siteLogo }: { session?: any;
       {mobileMenuOpen && (
         <div className="md:hidden absolute top-full left-0 w-full h-screen bg-white z-40 p-6 flex flex-col gap-6">
           <nav className="flex flex-col gap-6 items-center pt-10">
-            {NAV_CATEGORIES.map((cat) => (
-              <Link
-                key={cat.href}
-                href={cat.href}
-                onClick={() => setMobileMenuOpen(false)}
-                className="text-lg font-serif tracking-widest text-brand-dark hover:text-brand-gold"
-              >
-                {cat.label}
-              </Link>
+            {dynamicNav.map((cat) => (
+              <div key={cat.href} className="flex flex-col items-center">
+                <Link
+                  href={cat.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="text-lg font-serif tracking-widest text-brand-dark hover:text-brand-gold"
+                >
+                  {cat.label}
+                </Link>
+                {cat.children.length > 0 && (
+                  <div className="flex flex-col items-center mt-3 gap-2">
+                    {cat.children.map((child: any) => (
+                      <Link
+                        key={child.slug}
+                        href={`/products?category=${child.slug}`}
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="text-sm font-sans text-gray-500 hover:text-brand-gold"
+                      >
+                        {child.name}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
             ))}
             <div className="h-px w-12 bg-gray-200 my-4" />
             <Link href="#" className="flex items-center gap-2 text-sm tracking-wide text-gray-500">

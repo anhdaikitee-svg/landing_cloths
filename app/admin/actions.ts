@@ -67,16 +67,19 @@ export async function createCategory(formData: FormData) {
   await checkAdmin()
   const name = formData.get('name') as string
   const slug = formData.get('slug') as string || slugify(name)
+  const parentId = formData.get('parentId') as string || null
   await prisma.category.create({
-    data: { name, slug }
+    data: { name, slug, parentId }
   })
   revalidatePath('/admin/categories')
+  revalidatePath('/', 'layout')
 }
 
 export async function deleteCategory(id: string) {
   await checkAdmin()
   await prisma.category.delete({ where: { id } })
   revalidatePath('/admin/categories')
+  revalidatePath('/', 'layout')
 }
 
 // -- PRODUCTS --
@@ -151,11 +154,13 @@ export async function deleteProduct(id: string) {
 export async function updateCategory(id: string, formData: FormData) {
   await checkAdmin()
   const name = formData.get('name') as string
+  const parentId = formData.get('parentId') as string || null
   await prisma.category.update({
     where: { id },
-    data: { name }
+    data: { name, parentId }
   })
   revalidatePath('/admin/categories')
+  revalidatePath('/', 'layout')
 }
 
 // -- UPDATE PRODUCT --

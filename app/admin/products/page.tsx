@@ -68,7 +68,7 @@ export default async function ProductsAdmin() {
                 <th className="p-4 text-sm font-semibold text-gray-600 w-16">Ảnh</th>
                 <th className="p-4 text-sm font-semibold text-gray-600">Sản Phẩm</th>
                 <th className="p-4 text-sm font-semibold text-gray-600">Danh Mục</th>
-                <th className="p-4 text-sm font-semibold text-gray-600">Giá</th>
+
                 <th className="p-4 text-sm font-semibold text-gray-600 text-right">Thao tác</th>
               </tr>
             </thead>
@@ -85,7 +85,7 @@ export default async function ProductsAdmin() {
 
                   </td>
                   <td className="p-4 text-sm text-gray-600">{prod.category.name}</td>
-                  <td className="p-4 text-sm text-gray-600">{new Intl.NumberFormat('vi-VN').format(prod.price)}đ</td>
+
                   <td className="p-4 text-right">
                     <div className="flex justify-end gap-2">
                       <Link href={`/admin/products/${prod.id}`} className="text-blue-500 hover:text-blue-700 p-1" title="Sửa">

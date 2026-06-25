@@ -41,10 +41,20 @@ export default async function RootLayout({
   const siteName = settings.find(s => s.key === 'site_name')?.value || "L'ART DE VIVRE"
   const siteLogo = settings.find(s => s.key === 'site_logo')?.value || ""
 
+  let categories: any[] = []
+  try {
+    categories = await prisma.category.findMany({
+      where: { parentId: null },
+      include: { children: true }
+    })
+  } catch (error) {
+    console.error("Failed to fetch categories", error)
+  }
+
   return (
     <html lang="vi">
       <body className={`${outfit.variable} ${lora.variable} font-sans bg-brand-light text-brand-dark antialiased`}>
-        <Header session={session} siteName={siteName} siteLogo={siteLogo} />
+        <Header session={session} siteName={siteName} siteLogo={siteLogo} categories={categories} />
         <main className="min-h-screen">{children}</main>
         <Footer siteName={siteName} siteLogo={siteLogo} />
         <FloatingContact />

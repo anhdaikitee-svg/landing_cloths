@@ -6,6 +6,12 @@ import { ArrowLeft } from 'lucide-react'
 
 export default async function EditCategoryPage({ params }: { params: { id: string } }) {
   const category = await prisma.category.findUnique({ where: { id: params.id } })
+  const parentCategories = await prisma.category.findMany({
+    where: { 
+      parentId: null,
+      id: { not: params.id } // cannot be parent of itself
+    }
+  })
 
   if (!category) {
     notFound()
@@ -32,6 +38,15 @@ export default async function EditCategoryPage({ params }: { params: { id: strin
           <div>
             <label className="block text-sm text-gray-600 mb-1">Tên Danh Mục</label>
             <input type="text" name="name" defaultValue={category.name} required className="w-full border rounded px-3 py-2 text-sm" />
+          </div>
+          <div>
+            <label className="block text-sm text-gray-600 mb-1">Danh Mục Cha (Tùy chọn)</label>
+            <select name="parentId" defaultValue={category.parentId || ""} className="w-full border rounded px-3 py-2 text-sm bg-white">
+              <option value="">-- Không có (Danh mục gốc) --</option>
+              {parentCategories.map(c => (
+                <option key={c.id} value={c.id}>{c.name}</option>
+              ))}
+            </select>
           </div>
           <div>
             <label className="block text-sm text-gray-600 mb-1">Mã Màu (Tùy chọn)</label>
