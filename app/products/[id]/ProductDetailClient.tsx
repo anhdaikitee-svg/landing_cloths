@@ -51,7 +51,7 @@ export default function ProductDetailClient({ product, related }: { product: Pro
         </header>
 
         {/* Hero Image Slider */}
-        <div className="relative aspect-square w-full max-w-2xl mx-auto bg-[#f8f9fa] rounded-2xl overflow-hidden shadow-sm mb-16 group">
+        <div className="relative aspect-square w-full max-w-3xl mx-auto bg-[#f8f9fa] rounded-2xl overflow-hidden shadow-sm mb-16 group">
           {displayImages.length > 0 ? (
             <>
               <Image 
@@ -97,7 +97,7 @@ export default function ProductDetailClient({ product, related }: { product: Pro
 
         {/* Thumbnails Gallery */}
         {displayImages.length > 1 && (
-          <div className="flex justify-center gap-4 mb-16 overflow-x-auto pb-4 max-w-2xl mx-auto px-4 snap-x">
+          <div className="flex justify-center gap-4 mb-16 overflow-x-auto pb-4 max-w-3xl mx-auto px-4 snap-x">
             {displayImages.map((img, idx) => (
               <button
                 key={idx}
