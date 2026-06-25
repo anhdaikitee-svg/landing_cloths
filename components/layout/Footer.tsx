@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
-export default function Footer() {
+export default function Footer({ siteName, siteLogo }: { siteName?: string; siteLogo?: string }) {
   const pathname = usePathname()
   if (pathname?.startsWith('/admin')) return null
   return (
@@ -13,7 +13,13 @@ export default function Footer() {
 
           {/* Brand Info */}
           <div className="md:col-span-5">
-            <h2 className="font-serif text-2xl font-bold tracking-widest text-white mb-6">L&apos;ART DE VIVRE</h2>
+            {siteLogo ? (
+              <img src={siteLogo} alt={siteName || "Logo"} className="h-10 object-contain mb-6 invert grayscale contrast-200" />
+            ) : (
+              <h2 className="font-serif text-2xl font-bold tracking-widest text-white mb-6">
+                {siteName || "L'ART DE VIVRE"}
+              </h2>
+            )}
             <p className="text-sm leading-relaxed text-gray-400 font-serif italic mb-8 max-w-sm">
               Nghệ thuật sống tinh tế qua từng đường kim mũi chỉ. Tôn vinh di sản Việt Nam qua lăng kính thời trang đương đại.
             </p>

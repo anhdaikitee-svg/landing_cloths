@@ -15,7 +15,7 @@ const NAV_CATEGORIES = [
   { label: 'VỀ CHÚNG TÔI', href: '/about' },
 ]
 
-export default function Header({ session }: { session?: any }) {
+export default function Header({ session, siteName, siteLogo }: { session?: any; siteName?: string; siteLogo?: string }) {
   const pathname = usePathname()
   const [isScrolled, setIsScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -56,9 +56,13 @@ export default function Header({ session }: { session?: any }) {
 
         {/* Brand Logo */}
         <Link href="/" className="flex-1 md:flex-none text-center md:text-left">
-          <span className="font-serif text-2xl md:text-3xl font-bold tracking-widest text-brand-dark">
-            L&apos;ART DE VIVRE
-          </span>
+          {siteLogo ? (
+            <img src={siteLogo} alt={siteName || "Logo"} className="h-8 md:h-10 mx-auto md:mx-0 object-contain" />
+          ) : (
+            <span className="font-serif text-2xl md:text-3xl font-bold tracking-widest text-brand-dark">
+              {siteName || "L'ART DE VIVRE"}
+            </span>
+          )}
         </Link>
 
         {/* Desktop Navigation */}

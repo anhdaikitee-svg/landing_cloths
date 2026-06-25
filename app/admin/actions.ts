@@ -15,14 +15,14 @@ async function checkAdmin() {
   }
 }
 
-async function uploadToR2(file: File): Promise<string | null> {
+async function uploadToR2(file: File, folder: string = 'products'): Promise<string | null> {
   if (!file || file.size === 0) return null
   const bytes = await file.arrayBuffer()
   const buffer = Buffer.from(bytes)
 
   const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1E9)}`
   const ext = file.name.split('.').pop() || 'jpg'
-  const filename = `products/${uniqueSuffix}.${ext}`
+  const filename = `${folder}/${uniqueSuffix}.${ext}`
 
   const { R2_BUCKET_NAME, R2_PUBLIC_URL } = process.env
 
@@ -186,4 +186,31 @@ export async function updateProduct(id: string, formData: FormData) {
   revalidatePath('/admin/products')
   revalidatePath('/products')
   revalidatePath(`/products/${id}`)
+}
+// -- SETTINGS --
+export async function updateSettings(formData: FormData) {
+  await checkAdmin()
+  const siteName = formData.get('site_name') as string
+  const logoFile = formData.get('site_logo') as File | null
+
+  if (siteName) {
+    await prisma.siteSetting.upsert({
+      where: { key: 'site_name' },
+      update: { value: siteName },
+      create: { key: 'site_name', value: siteName }
+    })
+  }
+
+  if (logoFile && logoFile.size > 0) {
+    const logoUrl = await uploadToR2(logoFile, 'settings')
+    if (logoUrl) {
+      await prisma.siteSetting.upsert({
+        where: { key: 'site_logo' },
+        update: { value: logoUrl },
+        create: { key: 'site_logo', value: logoUrl }
+      })
+    }
+  }
+
+  revalidatePath('/', 'layout')
 }

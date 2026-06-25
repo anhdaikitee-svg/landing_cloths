@@ -7,6 +7,7 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 
 import FloatingContact from '@/components/layout/FloatingContact'
+import { prisma } from '@/lib/prisma'
 
 const outfit = Outfit({ 
   subsets: ['latin', 'latin-ext'],
@@ -29,12 +30,23 @@ export default async function RootLayout({
   children: React.ReactNode
 }>) {
   const session = await getServerSession(authOptions)
+  
+  let settings: { key: string, value: string }[] = []
+  try {
+    settings = await prisma.siteSetting.findMany()
+  } catch (error) {
+    console.error("Failed to fetch settings", error)
+  }
+  
+  const siteName = settings.find(s => s.key === 'site_name')?.value || "L'ART DE VIVRE"
+  const siteLogo = settings.find(s => s.key === 'site_logo')?.value || ""
+
   return (
     <html lang="vi">
       <body className={`${outfit.variable} ${lora.variable} font-sans bg-brand-light text-brand-dark antialiased`}>
-        <Header session={session} />
+        <Header session={session} siteName={siteName} siteLogo={siteLogo} />
         <main className="min-h-screen">{children}</main>
-        <Footer />
+        <Footer siteName={siteName} siteLogo={siteLogo} />
         <FloatingContact />
       </body>
     </html>
