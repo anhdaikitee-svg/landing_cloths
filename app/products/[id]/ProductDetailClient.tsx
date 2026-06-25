@@ -159,10 +159,10 @@ export default function ProductDetailClient({ product, related }: { product: Pro
               Sản phẩm hiện đang có sẵn để đặt hàng. Vui lòng liên hệ với chuyên viên tư vấn của chúng tôi để biết thêm chi tiết và phương thức sở hữu.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a href="tel:0901234567" className="flex items-center justify-center gap-3 bg-brand-dark text-white px-8 py-4 text-xs tracking-[0.2em] uppercase hover:bg-black transition-colors rounded">
+              <a href="tel:0387727309" className="flex items-center justify-center gap-3 bg-brand-dark text-white px-8 py-4 text-xs tracking-[0.2em] uppercase hover:bg-black transition-colors rounded">
                 <Phone size={16} /> Gọi Tư Vấn
               </a>
-              <a href="#" className="flex items-center justify-center gap-3 border border-brand-dark text-brand-dark px-8 py-4 text-xs tracking-[0.2em] uppercase hover:bg-gray-50 transition-colors rounded">
+              <a href="https://zalo.me/0387727309" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-3 border border-brand-dark text-brand-dark px-8 py-4 text-xs tracking-[0.2em] uppercase hover:bg-gray-50 transition-colors rounded">
                 <MessageCircle size={16} /> Nhắn Tin Zalo
               </a>
             </div>

@@ -90,9 +90,7 @@ export default function LoginPage() {
             <Link href="/auth/register" className="text-brand-dark hover:text-brand-gold transition-colors font-medium">Đăng Ký</Link>
           </div>
 
-          <div className="mt-8 p-4 bg-gray-50 border border-gray-100 rounded text-xs text-gray-500 text-center">
-            Tài khoản quản trị demo: <br/><strong>admin@lartdevivre.vn</strong> / <strong>admin123456</strong>
-          </div>
+
         </div>
       </div>
     </div>

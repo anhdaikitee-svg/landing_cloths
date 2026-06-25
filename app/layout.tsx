@@ -6,6 +6,8 @@ import Footer from '@/components/layout/Footer'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 
+import FloatingContact from '@/components/layout/FloatingContact'
+
 const outfit = Outfit({ 
   subsets: ['latin', 'latin-ext'],
   variable: '--font-inter', // keep the variable name same to avoid changing tailwind config
@@ -33,6 +35,7 @@ export default async function RootLayout({
         <Header session={session} />
         <main className="min-h-screen">{children}</main>
         <Footer />
+        <FloatingContact />
       </body>
     </html>
   )
