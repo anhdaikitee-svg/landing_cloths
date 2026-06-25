@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Phone, MessageCircle } from 'lucide-react'
+import { Phone, MessageCircle, ChevronLeft, ChevronRight } from 'lucide-react'
 import ProductCard from '@/components/product/ProductCard'
 
 interface Color { id: string; name: string; hex: string; images: string[]; stock: number }
@@ -19,6 +19,15 @@ interface RelatedProduct {
 
 export default function ProductDetailClient({ product, related }: { product: Product; related: RelatedProduct[] }) {
   const displayImages = product.images
+  const [currentImageIndex, setCurrentImageIndex] = useState(0)
+
+  const nextImage = () => {
+    setCurrentImageIndex((prev) => (prev + 1) % displayImages.length)
+  }
+
+  const prevImage = () => {
+    setCurrentImageIndex((prev) => (prev - 1 + displayImages.length) % displayImages.length)
+  }
 
   return (
     <div className="bg-brand-light min-h-screen pt-24 pb-32">
@@ -41,14 +50,67 @@ export default function ProductDetailClient({ product, related }: { product: Pro
           </div>
         </header>
 
-        {/* Hero Image */}
-        <div className="relative aspect-square w-full max-w-2xl mx-auto bg-[#f8f9fa] rounded-2xl overflow-hidden shadow-sm mb-16">
-          {displayImages[0] ? (
-            <Image src={displayImages[0]} alt={product.name} fill className="object-cover" priority sizes="100vw" />
+        {/* Hero Image Slider */}
+        <div className="relative aspect-square w-full max-w-2xl mx-auto bg-[#f8f9fa] rounded-2xl overflow-hidden shadow-sm mb-16 group">
+          {displayImages.length > 0 ? (
+            <>
+              <Image 
+                src={displayImages[currentImageIndex]} 
+                alt={`${product.name} - ${currentImageIndex + 1}`} 
+                fill 
+                className="object-cover transition-opacity duration-300" 
+                priority 
+                sizes="100vw" 
+              />
+              {displayImages.length > 1 && (
+                <>
+                  <button 
+                    onClick={prevImage}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/80 backdrop-blur text-brand-dark rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white shadow-sm"
+                  >
+                    <ChevronLeft size={24} />
+                  </button>
+                  <button 
+                    onClick={nextImage}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/80 backdrop-blur text-brand-dark rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white shadow-sm"
+                  >
+                    <ChevronRight size={24} />
+                  </button>
+                  
+                  {/* Dots indicator */}
+                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+                    {displayImages.map((_, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => setCurrentImageIndex(idx)}
+                        className={`w-2 h-2 rounded-full transition-all ${idx === currentImageIndex ? 'bg-white w-4' : 'bg-white/50'}`}
+                      />
+                    ))}
+                  </div>
+                </>
+              )}
+            </>
           ) : (
             <div className="w-full h-full flex items-center justify-center font-serif text-gray-400 italic">Chưa có ảnh</div>
           )}
         </div>
+
+        {/* Thumbnails Gallery */}
+        {displayImages.length > 1 && (
+          <div className="flex justify-center gap-4 mb-16 overflow-x-auto pb-4 max-w-2xl mx-auto px-4 snap-x">
+            {displayImages.map((img, idx) => (
+              <button
+                key={idx}
+                onClick={() => setCurrentImageIndex(idx)}
+                className={`relative flex-shrink-0 w-20 h-20 sm:w-24 sm:h-24 rounded-lg overflow-hidden border-2 transition-all snap-center ${
+                  idx === currentImageIndex ? 'border-brand-dark shadow-md' : 'border-transparent opacity-60 hover:opacity-100'
+                }`}
+              >
+                <Image src={img} alt={`Thumbnail ${idx + 1}`} fill className="object-cover" sizes="96px" />
+              </button>
+            ))}
+          </div>
+        )}
 
         {/* Article Content */}
         <div className="max-w-3xl mx-auto">
@@ -61,16 +123,6 @@ export default function ProductDetailClient({ product, related }: { product: Pro
             {product.description || 'Chi tiết sản phẩm đang được cập nhật.'}
           </div>
 
-          {/* Secondary Images Gallery (if any) */}
-          {displayImages.length > 1 && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-16">
-              {displayImages.slice(1).map((img, i) => (
-                <div key={i} className="relative aspect-[4/3] rounded-xl overflow-hidden shadow-sm bg-gray-100">
-                  <Image src={img} alt={`${product.name} detail ${i + 1}`} fill className="object-cover" />
-                </div>
-              ))}
-            </div>
-          )}
           {/* Size & Price Charts Section */}
           {((product as any).sizeChartImage || (product as any).priceChartImage || (product as any).embroideryNote) && (
             <div className="my-24 space-y-12">
