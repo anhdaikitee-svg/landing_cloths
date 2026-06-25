@@ -4,7 +4,7 @@ import { revalidatePath } from 'next/cache'
 import { prisma } from '@/lib/prisma'
 import { authOptions } from '@/lib/auth'
 import { getServerSession } from 'next-auth'
-import { PutObjectCommand } from '@aws-sdk/client-s3'
+import { PutObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3'
 import { r2 } from '@/lib/s3'
 import { slugify } from '@/lib/utils'
 
@@ -39,6 +39,25 @@ async function uploadToR2(file: File, folder: string = 'products'): Promise<stri
   } catch (error) {
     console.error('R2 upload error:', error)
     return null
+  }
+}
+
+async function deleteFromR2(url: string) {
+  if (!url) return
+  const { R2_BUCKET_NAME, R2_PUBLIC_URL } = process.env
+  if (!R2_PUBLIC_URL || !url.startsWith(R2_PUBLIC_URL)) return
+  
+  const key = url.replace(`${R2_PUBLIC_URL}/`, '')
+  
+  const command = new DeleteObjectCommand({
+    Bucket: R2_BUCKET_NAME,
+    Key: key,
+  })
+  
+  try {
+    await r2.send(command)
+  } catch (error) {
+    console.error('R2 delete error:', error)
   }
 }
 
@@ -109,6 +128,20 @@ export async function createProduct(formData: FormData) {
 
 export async function deleteProduct(id: string) {
   await checkAdmin()
+  
+  const product = await prisma.product.findUnique({
+    where: { id },
+    select: { images: true, sizeChartImage: true, priceChartImage: true }
+  })
+
+  if (product) {
+    for (const img of product.images) {
+      await deleteFromR2(img)
+    }
+    if (product.sizeChartImage) await deleteFromR2(product.sizeChartImage)
+    if (product.priceChartImage) await deleteFromR2(product.priceChartImage)
+  }
+
   await prisma.product.delete({ where: { id } })
   revalidatePath('/admin/products')
   revalidatePath('/products')
