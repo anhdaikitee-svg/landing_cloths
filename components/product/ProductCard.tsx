@@ -47,7 +47,7 @@ export default function ProductCard({ product, layout = 'grid' }: { product: Pro
   if (layout === 'list') {
     return (
       <Link href={`/products/${product.id}`} className="group flex flex-col md:flex-row gap-6 md:gap-8 mb-10 border-b border-gray-100 pb-10">
-        <div className="relative w-full md:w-[40%] aspect-[4/3] rounded-xl overflow-hidden shrink-0 bg-gray-100 shadow-sm">
+        <div className="relative w-full md:w-[40%] aspect-square rounded-xl overflow-hidden shrink-0 bg-gray-100 shadow-sm">
            {product.images[0] && (
              <Image src={product.images[0]} alt={product.name} fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
            )}
@@ -76,7 +76,7 @@ export default function ProductCard({ product, layout = 'grid' }: { product: Pro
   // default grid layout (news grid)
   return (
     <Link href={`/products/${product.id}`} className="group flex flex-col h-full">
-      <div className="relative aspect-[4/3] overflow-hidden bg-gray-100 rounded-xl mb-5 shadow-sm">
+      <div className="relative aspect-square overflow-hidden bg-gray-100 rounded-xl mb-5 shadow-sm">
         {product.images[0] ? (
           <Image src={product.images[0]} alt={product.name} fill className="object-cover transition-transform duration-700 group-hover:scale-105" sizes="(max-width: 640px) 100vw, 33vw" />
         ) : (

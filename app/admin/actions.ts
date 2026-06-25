@@ -130,24 +130,37 @@ export async function createProduct(formData: FormData) {
 }
 
 export async function deleteProduct(id: string) {
-  await checkAdmin()
-  
-  const product = await prisma.product.findUnique({
-    where: { id },
-    select: { images: true, sizeChartImage: true, priceChartImage: true }
-  })
+  try {
+    await checkAdmin()
+    
+    const product = await prisma.product.findUnique({
+      where: { id },
+      select: { images: true, sizeChartImage: true, priceChartImage: true }
+    })
 
-  if (product) {
-    for (const img of product.images) {
-      await deleteFromR2(img)
+    if (product) {
+      for (const img of product.images) {
+        await deleteFromR2(img)
+      }
+      if (product.sizeChartImage) await deleteFromR2(product.sizeChartImage)
+      if (product.priceChartImage) await deleteFromR2(product.priceChartImage)
+
+      // Delete related records manually to bypass missing onDelete: Cascade
+      await prisma.$transaction([
+        prisma.cartItem.deleteMany({ where: { productId: id } }),
+        prisma.orderItem.deleteMany({ where: { productId: id } }),
+        prisma.review.deleteMany({ where: { productId: id } }),
+        prisma.productColor.deleteMany({ where: { productId: id } }),
+        prisma.product.delete({ where: { id } })
+      ])
     }
-    if (product.sizeChartImage) await deleteFromR2(product.sizeChartImage)
-    if (product.priceChartImage) await deleteFromR2(product.priceChartImage)
-  }
 
-  await prisma.product.delete({ where: { id } })
-  revalidatePath('/admin/products')
-  revalidatePath('/products')
+    revalidatePath('/admin/products')
+    revalidatePath('/products')
+  } catch (error) {
+    console.error("Failed to delete product:", error)
+    throw error
+  }
 }
 
 // -- UPDATE CATEGORY --
