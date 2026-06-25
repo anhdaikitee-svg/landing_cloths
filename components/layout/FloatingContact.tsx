@@ -1,8 +1,15 @@
 'use client'
 
 import Image from 'next/image'
+import { usePathname } from 'next/navigation'
 
 export default function FloatingContact() {
+  const pathname = usePathname()
+
+  if (pathname?.startsWith('/admin')) {
+    return null
+  }
+
   return (
     <div className="fixed bottom-8 right-6 md:bottom-12 md:right-12 flex flex-col gap-4 z-[99]">
       {/* Zalo Button */}
