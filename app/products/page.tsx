@@ -5,7 +5,7 @@ import { useSearchParams, useRouter } from 'next/navigation'
 import ProductCard from '@/components/product/ProductCard'
 
 interface Product {
-  id: string; name: string; slug: string; images: string[]; category: { name: string; slug: string }
+  id: string; name: string; images: string[]; category: { name: string; slug: string }
 }
 interface Pagination { total: number; page: number; limit: number; totalPages: number }
 

@@ -8,12 +8,12 @@ import ProductCard from '@/components/product/ProductCard'
 
 interface Color { id: string; name: string; hex: string; images: string[]; stock: number }
 interface Product {
-  id: string; name: string; slug: string; description: string | null
+  id: string; name: string; description: string | null
   images: string[]; colors: Color[]; price: number
   category: { name: string; slug: string }
 }
 interface RelatedProduct {
-  id: string; name: string; slug: string; images: string[]
+  id: string; name: string; images: string[]
   category: { name: string; slug: string }
 }
 

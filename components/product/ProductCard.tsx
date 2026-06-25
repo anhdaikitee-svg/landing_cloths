@@ -6,7 +6,6 @@ import Image from 'next/image'
 interface Product {
   id: string
   name: string
-  slug: string
   images: string[]
   description?: string | null
   price?: number
