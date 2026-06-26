@@ -24,20 +24,21 @@ async function uploadToR2(file: File, folder: string = 'products'): Promise<stri
   const ext = file.name.split('.').pop() || 'jpg'
   const filename = `${folder}/${uniqueSuffix}.${ext}`
 
-  const { R2_BUCKET_NAME, R2_PUBLIC_URL } = process.env
-
-  const command = new PutObjectCommand({
-    Bucket: R2_BUCKET_NAME,
-    Key: filename,
-    Body: buffer,
-    ContentType: file.type || 'image/jpeg',
-  })
-
   try {
+    const { R2_BUCKET_NAME, R2_PUBLIC_URL } = process.env
+    if (!R2_BUCKET_NAME) throw new Error("R2_BUCKET_NAME is not defined")
+
+    const command = new PutObjectCommand({
+      Bucket: R2_BUCKET_NAME,
+      Key: filename,
+      Body: buffer,
+      ContentType: file.type || 'image/jpeg',
+    })
+
     await r2.send(command)
     return `${R2_PUBLIC_URL}/${filename}`
   } catch (error) {
-    console.error('R2 upload error:', error)
+    console.error('Lỗi upload file:', error)
     return null
   }
 }

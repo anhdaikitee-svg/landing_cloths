@@ -1,12 +1,12 @@
 'use server'
 
-import { writeFile } from 'fs/promises'
-import { join } from 'path'
+import { prisma } from '@/lib/prisma'
 import { revalidatePath } from 'next/cache'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { PutObjectCommand } from '@aws-sdk/client-s3'
 import { r2 } from '@/lib/s3'
+
 
 async function checkAdmin() {
   const session = await getServerSession(authOptions)
@@ -26,16 +26,17 @@ export async function updateProcessContent(formData: FormData) {
     const ext = file.name.split('.').pop() || 'jpg'
     const filename = `process/${uniqueSuffix}.${ext}`
     
-    const { R2_BUCKET_NAME, R2_PUBLIC_URL } = process.env
-
-    const command = new PutObjectCommand({
-      Bucket: R2_BUCKET_NAME,
-      Key: filename,
-      Body: buffer,
-      ContentType: file.type || 'image/jpeg',
-    })
-
     try {
+      const { R2_BUCKET_NAME, R2_PUBLIC_URL } = process.env
+      if (!R2_BUCKET_NAME) throw new Error("R2_BUCKET_NAME is not defined")
+
+      const command = new PutObjectCommand({
+        Bucket: R2_BUCKET_NAME,
+        Key: filename,
+        Body: buffer,
+        ContentType: file.type || 'image/jpeg',
+      })
+
       await r2.send(command)
       return `${R2_PUBLIC_URL}/${filename}`
     } catch (error) {
@@ -89,8 +90,13 @@ export async function updateProcessContent(formData: FormData) {
     sections 
   }
 
-  const filePath = join(process.cwd(), 'data/process.json')
-  await writeFile(filePath, JSON.stringify(data, null, 2), 'utf-8')
+  const jsonValue = JSON.stringify(data)
+
+  await prisma.siteSetting.upsert({
+    where: { key: 'page_process' },
+    update: { value: jsonValue },
+    create: { key: 'page_process', value: jsonValue }
+  })
 
   revalidatePath('/process')
   revalidatePath('/admin/process')

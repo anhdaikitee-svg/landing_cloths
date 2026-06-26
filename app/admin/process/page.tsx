@@ -1,12 +1,11 @@
-import { readFile } from 'fs/promises'
-import { join } from 'path'
-import { updateAboutContent } from './actions'
+import { prisma } from '@/lib/prisma'
+import { updateProcessContent } from './actions'
 
 async function getProcessData() {
   try {
-    const filePath = join(process.cwd(), 'data/process.json')
-    const file = await readFile(filePath, 'utf-8')
-    return JSON.parse(file)
+    const setting = await prisma.siteSetting.findUnique({ where: { key: 'page_process' } })
+    if (setting) return JSON.parse(setting.value)
+    return {}
   } catch (e) {
     return {
       title1: '', content1: '', image1: '',
@@ -23,7 +22,7 @@ export default async function ProcessAdmin() {
   return (
     <div className="max-w-4xl">
       <h1 className="text-2xl font-bold mb-4 text-gray-800">Quản Lý Trang Quy Trình</h1>
-      <ProcessAdminClient initialData={data} updateAction={updateAboutContent} />
+      <ProcessAdminClient initialData={data} updateAction={updateProcessContent} />
     </div>
   )
 }

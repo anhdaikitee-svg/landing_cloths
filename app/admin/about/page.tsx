@@ -1,12 +1,11 @@
-import { readFile } from 'fs/promises'
-import { join } from 'path'
+import { prisma } from '@/lib/prisma'
 import { updateAboutContent } from './actions'
 
 async function getAboutData() {
   try {
-    const filePath = join(process.cwd(), 'data/about.json')
-    const file = await readFile(filePath, 'utf-8')
-    return JSON.parse(file)
+    const setting = await prisma.siteSetting.findUnique({ where: { key: 'page_about' } })
+    if (setting) return JSON.parse(setting.value)
+    return {}
   } catch (e) {
     return {
       title1: '', content1: '', image1: '',

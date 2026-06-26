@@ -1,7 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { readFile } from 'fs/promises'
-import { join } from 'path'
+import { prisma } from '@/lib/prisma'
 
 export const metadata = {
   title: 'Giới Thiệu - L\'Art de Vivre',
@@ -10,9 +9,9 @@ export const metadata = {
 
 async function getPoliciesData() {
   try {
-    const filePath = join(process.cwd(), 'data/policies.json')
-    const file = await readFile(filePath, 'utf-8')
-    const parsed = JSON.parse(file)
+    const setting = await prisma.siteSetting.findUnique({ where: { key: 'page_policies' } })
+    if (!setting) throw new Error('Not found')
+    const parsed = JSON.parse(setting.value)
     // Map legacy structure to sections if needed
     if (!parsed.sections) {
       parsed.sections = [

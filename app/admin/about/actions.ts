@@ -1,12 +1,12 @@
 'use server'
 
-import { writeFile } from 'fs/promises'
-import { join } from 'path'
 import { revalidatePath } from 'next/cache'
 import { getServerSession } from 'next-auth'
+import { prisma } from '@/lib/prisma'
 import { authOptions } from '@/lib/auth'
 import { PutObjectCommand } from '@aws-sdk/client-s3'
 import { r2 } from '@/lib/s3'
+
 
 async function checkAdmin() {
   const session = await getServerSession(authOptions)
@@ -26,20 +26,22 @@ export async function updateAboutContent(formData: FormData) {
     const ext = file.name.split('.').pop() || 'jpg'
     const filename = `about/${uniqueSuffix}.${ext}`
     
-    const { R2_BUCKET_NAME, R2_PUBLIC_URL } = process.env
-
-    const command = new PutObjectCommand({
-      Bucket: R2_BUCKET_NAME,
-      Key: filename,
-      Body: buffer,
-      ContentType: file.type || 'image/jpeg',
-    })
-
     try {
+      const { R2_BUCKET_NAME, R2_PUBLIC_URL } = process.env
+      if (!R2_BUCKET_NAME) throw new Error("R2_BUCKET_NAME is not defined")
+
+      const command = new PutObjectCommand({
+        Bucket: R2_BUCKET_NAME,
+        Key: filename,
+        Body: buffer,
+        ContentType: file.type || 'image/jpeg',
+      })
+
       await r2.send(command)
       return `${R2_PUBLIC_URL}/${filename}`
     } catch (error) {
       console.error('R2 upload error:', error)
+      // Return existing image if upload fails or crash? For now return empty string.
       return ''
     }
   }
@@ -89,8 +91,13 @@ export async function updateAboutContent(formData: FormData) {
     sections 
   }
 
-  const filePath = join(process.cwd(), 'data/about.json')
-  await writeFile(filePath, JSON.stringify(data, null, 2), 'utf-8')
+  const jsonValue = JSON.stringify(data)
+
+  await prisma.siteSetting.upsert({
+    where: { key: 'page_about' },
+    update: { value: jsonValue },
+    create: { key: 'page_about', value: jsonValue }
+  })
 
   revalidatePath('/about')
   revalidatePath('/admin/about')
