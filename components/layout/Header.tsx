@@ -42,10 +42,9 @@ export default function Header({ session, siteName, siteLogo, categories = [] }:
   }
 
   return (
-    <header 
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-white/95 backdrop-blur-sm shadow-sm py-4' : 'bg-transparent py-6'
-      }`}
+    <header
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white/95 backdrop-blur-sm shadow-sm py-4' : 'bg-transparent py-6'
+        }`}
     >
       <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between">
         {/* Mobile menu toggle */}
@@ -96,8 +95,8 @@ export default function Header({ session, siteName, siteLogo, categories = [] }:
 
         {/* Icons (Search, Stores) */}
         <div className="flex items-center gap-5 text-brand-dark">
-          <button 
-            onClick={() => setSearchOpen(!searchOpen)} 
+          <button
+            onClick={() => setSearchOpen(!searchOpen)}
             className="hover:text-brand-gold transition-colors"
           >
             <Search size={20} strokeWidth={1.5} />

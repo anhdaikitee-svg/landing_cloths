@@ -1,0 +1,97 @@
+'use server'
+
+import { writeFile } from 'fs/promises'
+import { join } from 'path'
+import { revalidatePath } from 'next/cache'
+import { getServerSession } from 'next-auth'
+import { authOptions } from '@/lib/auth'
+import { PutObjectCommand } from '@aws-sdk/client-s3'
+import { r2 } from '@/lib/s3'
+
+async function checkAdmin() {
+  const session = await getServerSession(authOptions)
+  if (session?.user?.role !== 'ADMIN') {
+    throw new Error('Unauthorized')
+  }
+}
+
+export async function updatePoliciesContent(formData: FormData) {
+  await checkAdmin()
+
+  // Helper to save file to Cloudflare R2
+  const saveFile = async (file: File) => {
+    const bytes = await file.arrayBuffer()
+    const buffer = Buffer.from(bytes)
+    const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1E9)}`
+    const ext = file.name.split('.').pop() || 'jpg'
+    const filename = `policies/${uniqueSuffix}.${ext}`
+    
+    const { R2_BUCKET_NAME, R2_PUBLIC_URL } = process.env
+
+    const command = new PutObjectCommand({
+      Bucket: R2_BUCKET_NAME,
+      Key: filename,
+      Body: buffer,
+      ContentType: file.type || 'image/jpeg',
+    })
+
+    try {
+      await r2.send(command)
+      return `${R2_PUBLIC_URL}/${filename}`
+    } catch (error) {
+      console.error('R2 upload error:', error)
+      return ''
+    }
+  }
+
+  const sectionIdsStr = formData.get('sectionIds') as string
+  const sectionIds = sectionIdsStr ? sectionIdsStr.split(',') : []
+
+  const sections = []
+
+  for (const id of sectionIds) {
+    if (!id.trim()) continue
+    
+    const title = formData.get(`title_${id}`) as string
+    const content = formData.get(`content_${id}`) as string
+    const existingImage = formData.get(`existingImage_${id}`) as string
+    const imageFile = formData.get(`imageFile_${id}`) as File | null
+
+    let finalImage = existingImage || ''
+    if (imageFile && imageFile.size > 0) {
+      finalImage = await saveFile(imageFile)
+    }
+
+    sections.push({
+      id,
+      title,
+      content,
+      image: finalImage
+    })
+  }
+
+  const heroSubtitle = formData.get('heroSubtitle') as string
+  const heroTitle = formData.get('heroTitle') as string
+  const heroExistingImage = formData.get('heroExistingImage') as string
+  const heroImageFile = formData.get('heroImageFile') as File | null
+
+  let finalHeroImage = heroExistingImage || ''
+  if (heroImageFile && heroImageFile.size > 0) {
+    finalHeroImage = await saveFile(heroImageFile)
+  }
+
+  const data = { 
+    hero: {
+      subtitle: heroSubtitle,
+      title: heroTitle,
+      image: finalHeroImage
+    },
+    sections 
+  }
+
+  const filePath = join(process.cwd(), 'data/policies.json')
+  await writeFile(filePath, JSON.stringify(data, null, 2), 'utf-8')
+
+  revalidatePath('/policies')
+  revalidatePath('/admin/policies')
+}
