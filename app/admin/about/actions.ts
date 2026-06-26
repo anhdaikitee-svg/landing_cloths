@@ -5,6 +5,8 @@ import { join } from 'path'
 import { revalidatePath } from 'next/cache'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
+import { PutObjectCommand } from '@aws-sdk/client-s3'
+import { r2 } from '@/lib/s3'
 
 async function checkAdmin() {
   const session = await getServerSession(authOptions)
@@ -16,7 +18,7 @@ async function checkAdmin() {
 export async function updateAboutContent(formData: FormData) {
   await checkAdmin()
 
-  // Helper to save file to Supabase
+  // Helper to save file to Cloudflare R2
   const saveFile = async (file: File) => {
     const bytes = await file.arrayBuffer()
     const buffer = Buffer.from(bytes)
@@ -24,23 +26,22 @@ export async function updateAboutContent(formData: FormData) {
     const ext = file.name.split('.').pop() || 'jpg'
     const filename = `about/${uniqueSuffix}.${ext}`
     
-    const { supabase } = await import('@/lib/supabase')
+    const { R2_BUCKET_NAME, R2_PUBLIC_URL } = process.env
 
-    const { data, error } = await supabase.storage
-      .from('uploads')
-      .upload(filename, buffer, {
-        contentType: file.type || 'image/jpeg',
-        cacheControl: '3600',
-        upsert: false
-      })
+    const command = new PutObjectCommand({
+      Bucket: R2_BUCKET_NAME,
+      Key: filename,
+      Body: buffer,
+      ContentType: file.type || 'image/jpeg',
+    })
 
-    if (error) {
-      console.error('Supabase upload error:', error)
+    try {
+      await r2.send(command)
+      return `${R2_PUBLIC_URL}/${filename}`
+    } catch (error) {
+      console.error('R2 upload error:', error)
       return ''
     }
-
-    const { data: publicUrlData } = supabase.storage.from('uploads').getPublicUrl(filename)
-    return publicUrlData.publicUrl
   }
 
   const sectionIdsStr = formData.get('sectionIds') as string

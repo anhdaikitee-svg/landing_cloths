@@ -5,14 +5,33 @@ import { Plus, X } from 'lucide-react'
 
 export default function CategoryModal({ createCategoryAction, parentCategories = [] }: { createCategoryAction: (formData: FormData) => Promise<void>, parentCategories?: any[] }) {
   const [isOpen, setIsOpen] = useState(false)
+  const [showSuccess, setShowSuccess] = useState(false)
 
-  const handleSubmit = async (formData: FormData) => {
-    await createCategoryAction(formData)
-    setIsOpen(false)
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    try {
+      const formData = new FormData(e.currentTarget)
+      await createCategoryAction(formData)
+      setIsOpen(false)
+      setShowSuccess(true)
+      setTimeout(() => setShowSuccess(false), 3000)
+    } catch (error) {
+      console.error(error)
+      alert('Có lỗi xảy ra!')
+    }
   }
 
   return (
     <>
+      {showSuccess && (
+        <div className="fixed top-24 right-8 bg-green-500 text-white px-6 py-4 rounded-lg shadow-2xl flex items-center gap-3 z-50 animate-in slide-in-from-top-10 fade-in duration-300">
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          <div className="flex flex-col">
+            <span className="font-bold">Thành công!</span>
+            <span className="text-sm opacity-90">Thêm danh mục thành công.</span>
+          </div>
+        </div>
+      )}
       <button 
         onClick={() => setIsOpen(true)}
         className="bg-brand-dark text-white px-4 py-2 rounded text-sm hover:bg-black transition flex items-center gap-2"
@@ -30,7 +49,7 @@ export default function CategoryModal({ createCategoryAction, parentCategories =
               </button>
             </div>
             
-            <form action={handleSubmit} className="p-6 space-y-4">
+            <form onSubmit={handleSubmit} className="p-6 space-y-4">
               <div>
                 <label className="block text-sm text-gray-600 mb-1">Tên Danh Mục</label>
                 <input 

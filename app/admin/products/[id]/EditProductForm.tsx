@@ -14,12 +14,14 @@ export default function EditProductForm({
   updateAction: (formData: FormData) => Promise<void> 
 }) {
   const [isPending, setIsPending] = useState(false)
+  const [showSuccess, setShowSuccess] = useState(false)
 
   async function handleSubmit(formData: FormData) {
     try {
       setIsPending(true)
       await updateAction(formData)
-      alert('Cập nhật sản phẩm thành công!')
+      setShowSuccess(true)
+      setTimeout(() => setShowSuccess(false), 3000)
     } catch (error) {
       console.error(error)
       alert('Có lỗi xảy ra, vui lòng thử lại!')
@@ -30,6 +32,15 @@ export default function EditProductForm({
 
   return (
     <div className="relative">
+      {showSuccess && (
+        <div className="fixed top-24 right-8 bg-green-500 text-white px-6 py-4 rounded-lg shadow-2xl flex items-center gap-3 z-50 animate-in slide-in-from-top-10 fade-in duration-300">
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          <div className="flex flex-col">
+            <span className="font-bold">Thành công!</span>
+            <span className="text-sm opacity-90">Cập nhật sản phẩm thành công.</span>
+          </div>
+        </div>
+      )}
       {/* Loading Overlay */}
       {isPending && (
         <div className="absolute inset-0 z-50 flex items-center justify-center bg-white/50 backdrop-blur-[1px] rounded-lg">

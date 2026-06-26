@@ -1,8 +1,21 @@
 {
-  "title1": "Triết Lý Độc Bản",
-  "content1": "L'Art de Vivre ra đời từ niềm đam mê sâu sắc với vẻ đẹp vượt thời gian. Chúng tôi tin rằng thời trang không chỉ đơn thuần là trang phục, mà là ngôn ngữ tôn vinh cá tính và nghệ thuật sống của mỗi cá nhân.\n\nMỗi bộ sưu tập là sự kết tinh giữa di sản văn hóa truyền thống và tư duy thiết kế hiện đại. Chúng tôi không chạy theo những xu hướng nhất thời, mà hướng tới việc tạo ra những tác phẩm nghệ thuật có sức sống bền bỉ qua nhiều thế hệ.",
-  "image1": "https://lh3.googleusercontent.com/aida-public/AB6AXuBxLFsUw-tPmG0cxkpSgfY7s4C6eizE0OQTokyDEs7qQs7rb14VPQAOvtm8sd12GH3SD-noMcPG1C6lRyTb8d6acFPS1jxW9fCuBIfUCqbzj2TQXGM34egY1Gacp82P_JWY6vmxyxirVYgPTWR9WjyN4bq0GGt5Kbei3h1X0AQFYKHJel8rcf_ztDHZbckSNwCVcuBuEXNLGkupM-VeDae27EMQgHqtsYAxWVLgVCDHSI60VkAYJde-zCrIDyfjaalpkhKGiNYT3tk",
-  "title2": "Nghệ Thuật Thủ Công",
-  "content2": "Chất lượng là nền tảng trong mọi sáng tạo của chúng tôi. L'Art de Vivre tự hào hợp tác với những nghệ nhân tài hoa nhất, những người đã dành cả cuộc đời để mài giũa kỹ năng của mình.\n\nTừ việc tuyển chọn những thước lụa tơ tằm thượng hạng, những đường kim mũi chỉ thêu tay tỉ mỉ, cho đến khâu hoàn thiện cuối cùng, mọi công đoạn đều được thực hiện với sự cẩn trọng và lòng tôn kính sâu sắc đối với vật liệu.",
-  "image2": ""
+  "hero": {
+    "subtitle": "Câu chuyện của chúng tôi",
+    "title": "Hành Trình Kiến Tạo",
+    "image": "https://pub-8e93ec9b90cc4059b88ea9d7fd512aa1.r2.dev/about/1782464044266-606166069.jpg"
+  },
+  "sections": [
+    {
+      "id": "1",
+      "title": "Triết Lý Độc Bản",
+      "content": "L'Art de Vivre ra đời từ niềm đam mê sâu sắc với vẻ đẹp vượt thời gian. Chúng tôi tin rằng thời trang không chỉ đơn thuần là trang phục, mà là ngôn ngữ tôn vinh cá tính và nghệ thuật sống của mỗi cá nhân.\r\n\r\nMỗi bộ sưu tập là sự kết tinh giữa di sản văn hóa truyền thống và tư duy thiết kế hiện đại. Chúng tôi không chạy theo những xu hướng nhất thời, mà hướng tới việc tạo ra những tác phẩm nghệ thuật có sức sống bền bỉ qua nhiều thế hệ.",
+      "image": "https://lh3.googleusercontent.com/aida-public/AB6AXuBxLFsUw-tPmG0cxkpSgfY7s4C6eizE0OQTokyDEs7qQs7rb14VPQAOvtm8sd12GH3SD-noMcPG1C6lRyTb8d6acFPS1jxW9fCuBIfUCqbzj2TQXGM34egY1Gacp82P_JWY6vmxyxirVYgPTWR9WjyN4bq0GGt5Kbei3h1X0AQFYKHJel8rcf_ztDHZbckSNwCVcuBuEXNLGkupM-VeDae27EMQgHqtsYAxWVLgVCDHSI60VkAYJde-zCrIDyfjaalpkhKGiNYT3tk"
+    },
+    {
+      "id": "2",
+      "title": "Nghệ Thuật Thủ Công",
+      "content": "Chất lượng là nền tảng trong mọi sáng tạo của chúng tôi. L'Art de Vivre tự hào hợp tác với những nghệ nhân tài hoa nhất, những người đã dành cả cuộc đời để mài giũa kỹ năng của mình.\r\n\r\nTừ việc tuyển chọn những thước lụa tơ tằm thượng hạng, những đường kim mũi chỉ thêu tay tỉ mỉ, cho đến khâu hoàn thiện cuối cùng, mọi công đoạn đều được thực hiện với sự cẩn trọng và lòng tôn kính sâu sắc đối với vật liệu.",
+      "image": ""
+    }
+  ]
 }

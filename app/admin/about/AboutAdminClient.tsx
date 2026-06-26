@@ -4,6 +4,9 @@ import { useState } from 'react'
 import { Plus, Trash2, GripVertical } from 'lucide-react'
 
 export default function AboutAdminClient({ initialData, updateAction }: { initialData: any, updateAction: (formData: FormData) => Promise<void> }) {
+  const [isSaving, setIsSaving] = useState(false)
+  const [showSuccess, setShowSuccess] = useState(false)
+
   const [hero, setHero] = useState(initialData?.hero || {
     subtitle: 'Câu chuyện của chúng tôi',
     title: 'Hành Trình Kiến Tạo\nNghệ Thuật Sống',
@@ -38,8 +41,34 @@ export default function AboutAdminClient({ initialData, updateAction }: { initia
     e.preventDefault()
   }
 
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setIsSaving(true)
+    try {
+      const formData = new FormData(e.currentTarget)
+      await updateAction(formData)
+      setShowSuccess(true)
+      setTimeout(() => setShowSuccess(false), 3000)
+    } catch (error) {
+      console.error(error)
+      alert('Có lỗi xảy ra khi lưu nội dung.')
+    } finally {
+      setIsSaving(false)
+    }
+  }
+
   return (
-    <form action={updateAction} className="space-y-8">
+    <>
+      {showSuccess && (
+        <div className="fixed top-24 right-8 bg-green-500 text-white px-6 py-4 rounded-lg shadow-2xl flex items-center gap-3 z-50 animate-in slide-in-from-top-10 fade-in duration-300">
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          <div className="flex flex-col">
+            <span className="font-bold">Thành công!</span>
+            <span className="text-sm opacity-90">Đã cập nhật dữ liệu thành công.</span>
+          </div>
+        </div>
+      )}
+      <form onSubmit={handleSubmit} className="space-y-8">
       <input type="hidden" name="sectionIds" value={sections.map(s => s.id).join(',')} />
 
       {/* Hero Section */}
@@ -126,9 +155,10 @@ export default function AboutAdminClient({ initialData, updateAction }: { initia
         )}
       </div>
 
-      <button type="submit" className="bg-brand-dark text-white px-8 py-3 rounded hover:bg-black transition font-medium w-full md:w-auto">
-        Lưu Thay Đổi
+      <button disabled={isSaving} type="submit" className={`px-8 py-3 rounded text-white font-medium w-full md:w-auto transition-colors ${isSaving ? 'bg-gray-400 cursor-not-allowed' : 'bg-brand-dark hover:bg-black'}`}>
+        {isSaving ? 'Đang lưu...' : 'Lưu Thay Đổi'}
       </button>
     </form>
+    </>
   )
 }
