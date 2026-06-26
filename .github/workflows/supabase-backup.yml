@@ -2,7 +2,6 @@ name: Daily Supabase Backup
 
 on:
   schedule:
-    # Chạy vào 00:00 mỗi ngày (giờ UTC, tức 7h sáng giờ Việt Nam)
     - cron: '0 0 * * *'
   workflow_dispatch: 
 
@@ -22,15 +21,15 @@ jobs:
 
       - name: Backup Database bằng pg_dump
         env:
-          DATABASE_URL: ${{ secrets.SUPABASE_DB_URL }}
+          PGPASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
         run: |
-          if [ -z "$DATABASE_URL" ]; then
-            echo "LỖI: Chưa cấu hình SUPABASE_DB_URL trong Github Secrets!"
+          if [ -z "$PGPASSWORD" ]; then
+            echo "LỖI: Chưa cấu hình SUPABASE_DB_PASSWORD trong Github Secrets!"
             exit 1
           fi
           
-          # Xuất toàn bộ cấu trúc và dữ liệu ra file backup.dump
-          pg_dump "$DATABASE_URL" --clean --if-exists --format=c --file=backup-${{ steps.date.outputs.date }}.dump
+          # Sử dụng tham số tường minh để tránh lỗi parse URL của pg_dump
+          pg_dump -h aws-1-ap-southeast-1.pooler.supabase.com -p 5432 -U postgres.biaiohzfozhumggxikez -d postgres --clean --if-exists --format=c --file=backup-${{ steps.date.outputs.date }}.dump
 
       - name: Lưu trữ Backup File vào Github Artifacts
         uses: actions/upload-artifact@v4
