@@ -50,22 +50,26 @@ export default async function AboutPage() {
         
         {/* Header Section */}
         <div className="text-center max-w-3xl mx-auto mb-20">
-          <p className="text-xs uppercase tracking-[0.3em] text-brand-dark/60 mb-6">Câu chuyện của chúng tôi</p>
-          <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl text-brand-dark tracking-widest leading-tight mb-8">
-            Hành Trình Kiến Tạo<br/>Nghệ Thuật Sống
+          <p className="text-xs uppercase tracking-[0.3em] text-brand-dark/60 mb-6">
+            {data.hero?.subtitle || 'Câu chuyện của chúng tôi'}
+          </p>
+          <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl text-brand-dark tracking-widest leading-tight mb-8 whitespace-pre-wrap">
+            {data.hero?.title || 'Hành Trình Kiến Tạo\nNghệ Thuật Sống'}
           </h1>
           <div className="h-px w-24 bg-brand-gold mx-auto" />
         </div>
 
         {/* Main Hero Image */}
-        <div className="relative aspect-[16/9] md:aspect-[21/9] w-full mb-32 rounded-xl overflow-hidden shadow-sm border border-gray-100">
-          <Image 
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBrjk9xlAOfAwXX-SEAGHXYtZqvkWUkCh-k77fH-DW_te05pt9yGFdN6ScZe-2Bot6ttZPDyQXp8pm8UffzW17AmZgFschA2Q-VQhSpAGjjTTIYee4IxMCPoOgxd71cELviAwZq10pKPE4vftdjObz5FsmdsxGjE_jog4hs4SMFTocEyy8I3FeyYPydavDhCzIFAQ_VX_ypaHKmTdMHoxtOAPxfBYrPv3ecG0-ldeA8kpNT-Tymu_gO_6vEyddHJsc63VsbTCFHrxE" 
-            alt="Artisan Craftsmanship" 
-            fill 
-            className="object-cover"
-            priority
-          />
+        <div className="relative aspect-[16/9] md:aspect-[21/9] w-full mb-32 rounded-xl overflow-hidden shadow-sm border border-gray-100 bg-gray-100">
+          {(data.hero?.image || 'https://lh3.googleusercontent.com/aida-public/AB6AXuBrjk9xlAOfAwXX-SEAGHXYtZqvkWUkCh-k77fH-DW_te05pt9yGFdN6ScZe-2Bot6ttZPDyQXp8pm8UffzW17AmZgFschA2Q-VQhSpAGjjTTIYee4IxMCPoOgxd71cELviAwZq10pKPE4vftdjObz5FsmdsxGjE_jog4hs4SMFTocEyy8I3FeyYPydavDhCzIFAQ_VX_ypaHKmTdMHoxtOAPxfBYrPv3ecG0-ldeA8kpNT-Tymu_gO_6vEyddHJsc63VsbTCFHrxE') && (
+            <Image 
+              src={data.hero?.image || 'https://lh3.googleusercontent.com/aida-public/AB6AXuBrjk9xlAOfAwXX-SEAGHXYtZqvkWUkCh-k77fH-DW_te05pt9yGFdN6ScZe-2Bot6ttZPDyQXp8pm8UffzW17AmZgFschA2Q-VQhSpAGjjTTIYee4IxMCPoOgxd71cELviAwZq10pKPE4vftdjObz5FsmdsxGjE_jog4hs4SMFTocEyy8I3FeyYPydavDhCzIFAQ_VX_ypaHKmTdMHoxtOAPxfBYrPv3ecG0-ldeA8kpNT-Tymu_gO_6vEyddHJsc63VsbTCFHrxE'} 
+              alt="Artisan Craftsmanship" 
+              fill 
+              className="object-cover"
+              priority
+            />
+          )}
         </div>
 
         {/* Dynamic Sections */}

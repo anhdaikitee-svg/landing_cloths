@@ -110,12 +110,8 @@ export default function ProductDetailClient({ product, related }: { product: Pro
 
         {/* Article Content */}
         <div className="max-w-3xl mx-auto">
-          {/* Intro line */}
-          <p className="font-serif text-xl md:text-2xl text-brand-dark leading-relaxed italic text-center mb-12">
-            "Sự giao thoa hoàn hảo giữa tính thủ công truyền thống và hơi thở đương đại, tạo nên một tác phẩm nghệ thuật có thể mặc được mỗi ngày."
-          </p>
-
-          <div className="prose prose-lg text-gray-600 font-sans leading-loose mb-16 whitespace-pre-line">
+          {/* Description */}
+          <div className="font-serif text-xl md:text-2xl text-brand-dark leading-relaxed italic text-center mb-16 whitespace-pre-line">
             {product.description || 'Chi tiết sản phẩm đang được cập nhật.'}
           </div>
 
@@ -124,8 +120,8 @@ export default function ProductDetailClient({ product, related }: { product: Pro
             <div className="my-24 space-y-12">
               {/* Size Chart */}
               {(product as any).sizeChartImage && (
-                <div className="relative w-full aspect-[4/3] sm:aspect-[2/1] bg-gray-50 rounded-2xl overflow-hidden border border-gray-200 flex items-center justify-center shadow-inner">
-                  <Image src={(product as any).sizeChartImage} alt="Bảng Size" fill className="object-contain" />
+                <div className="w-full">
+                  <Image src={(product as any).sizeChartImage} alt="Bảng Size" width={1200} height={1200} className="w-full h-auto rounded-xl" />
                 </div>
               )}
 
@@ -141,8 +137,8 @@ export default function ProductDetailClient({ product, related }: { product: Pro
 
               {/* Price Chart */}
               {(product as any).priceChartImage && (
-                <div className="relative w-full aspect-[4/3] sm:aspect-[2/1] bg-gray-50 rounded-2xl overflow-hidden border border-gray-200 flex items-center justify-center shadow-inner">
-                  <Image src={(product as any).priceChartImage} alt="Bảng Giá" fill className="object-contain" />
+                <div className="w-full">
+                  <Image src={(product as any).priceChartImage} alt="Bảng Giá" width={1200} height={1200} className="w-full h-auto rounded-xl" />
                 </div>
               )}
             </div>
@@ -150,7 +146,7 @@ export default function ProductDetailClient({ product, related }: { product: Pro
 
           {/* Contact Box (Magazine Style CTA) */}
           <div className="bg-white border border-gray-100 p-8 md:p-12 rounded-2xl text-center shadow-sm">
-            <h3 className="font-serif text-2xl text-brand-dark mb-4">Sở Hữu Tác Phẩm Này</h3>
+            <h3 className="font-serif text-2xl text-brand-dark mb-4">Sở Hữu Sản Phẩm Này</h3>
             <p className="text-gray-500 text-sm mb-8 leading-relaxed max-w-md mx-auto">
               Sản phẩm hiện đang có sẵn để đặt hàng. Vui lòng liên hệ với chuyên viên tư vấn của chúng tôi để biết thêm chi tiết và phương thức sở hữu.
             </p>

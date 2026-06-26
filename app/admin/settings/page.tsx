@@ -2,6 +2,8 @@ import { prisma } from '@/lib/prisma'
 import { updateSettings } from '../actions'
 import Image from 'next/image'
 
+export const dynamic = 'force-dynamic'
+
 export default async function SettingsPage() {
   const settings = await prisma.siteSetting.findMany()
   const getSetting = (key: string) => settings.find(s => s.key === key)?.value || ''

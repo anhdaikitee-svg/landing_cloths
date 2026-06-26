@@ -69,7 +69,24 @@ export async function updateAboutContent(formData: FormData) {
     })
   }
 
-  const data = { sections }
+  const heroSubtitle = formData.get('heroSubtitle') as string
+  const heroTitle = formData.get('heroTitle') as string
+  const heroExistingImage = formData.get('heroExistingImage') as string
+  const heroImageFile = formData.get('heroImageFile') as File | null
+
+  let finalHeroImage = heroExistingImage || ''
+  if (heroImageFile && heroImageFile.size > 0) {
+    finalHeroImage = await saveFile(heroImageFile)
+  }
+
+  const data = { 
+    hero: {
+      subtitle: heroSubtitle,
+      title: heroTitle,
+      image: finalHeroImage
+    },
+    sections 
+  }
 
   const filePath = join(process.cwd(), 'data/about.json')
   await writeFile(filePath, JSON.stringify(data, null, 2), 'utf-8')

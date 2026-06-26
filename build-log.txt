@@ -1,0 +1,187 @@
+
+> shopee-clone@0.1.0 build
+> prisma generate && next build
+
+Environment variables loaded from .env
+Prisma schema loaded from prisma/schema.prisma
+
+✔ Generated Prisma Client (v5.22.0) to ./node_modules/@prisma/client in 80ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+Tip: Curious about the SQL queries Prisma ORM generates? Optimize helps you enhance your visibility: https://pris.ly/tip-2-optimize
+
+   ▲ Next.js 14.1.0
+   - Environments: .env
+   - Experiments (use at your own risk):
+     · cpus
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully
+   Skipping validation of types
+   Skipping linting
+   Collecting page data ...
+   Generating static pages (0/15) ...
+   Generating static pages (3/15) 
+   Generating static pages (7/15) 
+PrismaClientInitializationError: 
+Invalid `prisma.category.findMany()` invocation:
+
+
+Can't reach database server at `aws-1-ap-southeast-1.pooler.supabase.com:6543`
+
+Please make sure your database server is running at `aws-1-ap-southeast-1.pooler.supabase.com:6543`.
+    at $n.handleRequestError (/Users/admin/Project/LandingPage/landing_show_cloths/stitch_modern_apparel_showcase_gallery/shopee-clone/node_modules/@prisma/client/runtime/library.js:121:7615)
+    at $n.handleAndLogRequestError (/Users/admin/Project/LandingPage/landing_show_cloths/stitch_modern_apparel_showcase_gallery/shopee-clone/node_modules/@prisma/client/runtime/library.js:121:6623)
+    at $n.request (/Users/admin/Project/LandingPage/landing_show_cloths/stitch_modern_apparel_showcase_gallery/shopee-clone/node_modules/@prisma/client/runtime/library.js:121:6307)
+    at async l (/Users/admin/Project/LandingPage/landing_show_cloths/stitch_modern_apparel_showcase_gallery/shopee-clone/node_modules/@prisma/client/runtime/library.js:130:9633)
+    at async h (/Users/admin/Project/LandingPage/landing_show_cloths/stitch_modern_apparel_showcase_gallery/shopee-clone/.next/server/app/admin/categories/page.js:1:5632) {
+  clientVersion: '5.22.0',
+  errorCode: undefined
+}
+PrismaClientInitializationError: 
+Invalid `prisma.category.findMany()` invocation:
+
+
+Can't reach database server at `aws-1-ap-southeast-1.pooler.supabase.com:6543`
+
+Please make sure your database server is running at `aws-1-ap-southeast-1.pooler.supabase.com:6543`.
+    at $n.handleRequestError (/Users/admin/Project/LandingPage/landing_show_cloths/stitch_modern_apparel_showcase_gallery/shopee-clone/node_modules/@prisma/client/runtime/library.js:121:7615)
+    at $n.handleAndLogRequestError (/Users/admin/Project/LandingPage/landing_show_cloths/stitch_modern_apparel_showcase_gallery/shopee-clone/node_modules/@prisma/client/runtime/library.js:121:6623)
+    at $n.request (/Users/admin/Project/LandingPage/landing_show_cloths/stitch_modern_apparel_showcase_gallery/shopee-clone/node_modules/@prisma/client/runtime/library.js:121:6307)
+    at async l (/Users/admin/Project/LandingPage/landing_show_cloths/stitch_modern_apparel_showcase_gallery/shopee-clone/node_modules/@prisma/client/runtime/library.js:130:9633)
+    at async h (/Users/admin/Project/LandingPage/landing_show_cloths/stitch_modern_apparel_showcase_gallery/shopee-clone/.next/server/app/admin/categories/page.js:1:5632) {
+  clientVersion: '5.22.0',
+  errorCode: undefined
+}
+PrismaClientInitializationError: 
+Invalid `prisma.product.count()` invocation:
+
+
+Can't reach database server at `aws-1-ap-southeast-1.pooler.supabase.com:6543`
+
+Please make sure your database server is running at `aws-1-ap-southeast-1.pooler.supabase.com:6543`.
+    at $n.handleRequestError (/Users/admin/Project/LandingPage/landing_show_cloths/stitch_modern_apparel_showcase_gallery/shopee-clone/node_modules/@prisma/client/runtime/library.js:121:7615)
+    at $n.handleAndLogRequestError (/Users/admin/Project/LandingPage/landing_show_cloths/stitch_modern_apparel_showcase_gallery/shopee-clone/node_modules/@prisma/client/runtime/library.js:121:6623)
+    at $n.request (/Users/admin/Project/LandingPage/landing_show_cloths/stitch_modern_apparel_showcase_gallery/shopee-clone/node_modules/@prisma/client/runtime/library.js:121:6307)
+    at async l (/Users/admin/Project/LandingPage/landing_show_cloths/stitch_modern_apparel_showcase_gallery/shopee-clone/node_modules/@prisma/client/runtime/library.js:130:9633)
+    at async Promise.all (index 0)
+    at async o (/Users/admin/Project/LandingPage/landing_show_cloths/stitch_modern_apparel_showcase_gallery/shopee-clone/.next/server/app/admin/page.js:1:5466) {
+  clientVersion: '5.22.0',
+  errorCode: undefined
+}
+PrismaClientInitializationError: 
+Invalid `prisma.product.count()` invocation:
+
+
+Can't reach database server at `aws-1-ap-southeast-1.pooler.supabase.com:6543`
+
+Please make sure your database server is running at `aws-1-ap-southeast-1.pooler.supabase.com:6543`.
+    at $n.handleRequestError (/Users/admin/Project/LandingPage/landing_show_cloths/stitch_modern_apparel_showcase_gallery/shopee-clone/node_modules/@prisma/client/runtime/library.js:121:7615)
+    at $n.handleAndLogRequestError (/Users/admin/Project/LandingPage/landing_show_cloths/stitch_modern_apparel_showcase_gallery/shopee-clone/node_modules/@prisma/client/runtime/library.js:121:6623)
+    at $n.request (/Users/admin/Project/LandingPage/landing_show_cloths/stitch_modern_apparel_showcase_gallery/shopee-clone/node_modules/@prisma/client/runtime/library.js:121:6307)
+    at async l (/Users/admin/Project/LandingPage/landing_show_cloths/stitch_modern_apparel_showcase_gallery/shopee-clone/node_modules/@prisma/client/runtime/library.js:130:9633)
+    at async Promise.all (index 0)
+    at async o (/Users/admin/Project/LandingPage/landing_show_cloths/stitch_modern_apparel_showcase_gallery/shopee-clone/.next/server/app/admin/page.js:1:5466) {
+  clientVersion: '5.22.0',
+  errorCode: undefined
+}
+PrismaClientInitializationError: 
+Invalid `prisma.product.findMany()` invocation:
+
+
+Can't reach database server at `aws-1-ap-southeast-1.pooler.supabase.com:6543`
+
+Please make sure your database server is running at `aws-1-ap-southeast-1.pooler.supabase.com:6543`.
+    at $n.handleRequestError (/Users/admin/Project/LandingPage/landing_show_cloths/stitch_modern_apparel_showcase_gallery/shopee-clone/node_modules/@prisma/client/runtime/library.js:121:7615)
+    at $n.handleAndLogRequestError (/Users/admin/Project/LandingPage/landing_show_cloths/stitch_modern_apparel_showcase_gallery/shopee-clone/node_modules/@prisma/client/runtime/library.js:121:6623)
+    at $n.request (/Users/admin/Project/LandingPage/landing_show_cloths/stitch_modern_apparel_showcase_gallery/shopee-clone/node_modules/@prisma/client/runtime/library.js:121:6307)
+    at async l (/Users/admin/Project/LandingPage/landing_show_cloths/stitch_modern_apparel_showcase_gallery/shopee-clone/node_modules/@prisma/client/runtime/library.js:130:9633)
+    at async Promise.all (index 0)
+    at async u (/Users/admin/Project/LandingPage/landing_show_cloths/stitch_modern_apparel_showcase_gallery/shopee-clone/.next/server/app/admin/products/page.js:1:7045) {
+  clientVersion: '5.22.0',
+  errorCode: undefined
+}
+PrismaClientInitializationError: 
+Invalid `prisma.product.findMany()` invocation:
+
+
+Can't reach database server at `aws-1-ap-southeast-1.pooler.supabase.com:6543`
+
+Please make sure your database server is running at `aws-1-ap-southeast-1.pooler.supabase.com:6543`.
+    at $n.handleRequestError (/Users/admin/Project/LandingPage/landing_show_cloths/stitch_modern_apparel_showcase_gallery/shopee-clone/node_modules/@prisma/client/runtime/library.js:121:7615)
+    at $n.handleAndLogRequestError (/Users/admin/Project/LandingPage/landing_show_cloths/stitch_modern_apparel_showcase_gallery/shopee-clone/node_modules/@prisma/client/runtime/library.js:121:6623)
+    at $n.request (/Users/admin/Project/LandingPage/landing_show_cloths/stitch_modern_apparel_showcase_gallery/shopee-clone/node_modules/@prisma/client/runtime/library.js:121:6307)
+    at async l (/Users/admin/Project/LandingPage/landing_show_cloths/stitch_modern_apparel_showcase_gallery/shopee-clone/node_modules/@prisma/client/runtime/library.js:130:9633)
+    at async Promise.all (index 0)
+    at async u (/Users/admin/Project/LandingPage/landing_show_cloths/stitch_modern_apparel_showcase_gallery/shopee-clone/.next/server/app/admin/products/page.js:1:7045) {
+  clientVersion: '5.22.0',
+  errorCode: undefined
+}
+   Generating static pages (11/15) 
+PrismaClientInitializationError: 
+Invalid `prisma.product.findMany()` invocation:
+
+
+Can't reach database server at `aws-1-ap-southeast-1.pooler.supabase.com:6543`
+
+Please make sure your database server is running at `aws-1-ap-southeast-1.pooler.supabase.com:6543`.
+    at $n.handleRequestError (/Users/admin/Project/LandingPage/landing_show_cloths/stitch_modern_apparel_showcase_gallery/shopee-clone/node_modules/@prisma/client/runtime/library.js:121:7615)
+    at $n.handleAndLogRequestError (/Users/admin/Project/LandingPage/landing_show_cloths/stitch_modern_apparel_showcase_gallery/shopee-clone/node_modules/@prisma/client/runtime/library.js:121:6623)
+    at $n.request (/Users/admin/Project/LandingPage/landing_show_cloths/stitch_modern_apparel_showcase_gallery/shopee-clone/node_modules/@prisma/client/runtime/library.js:121:6307)
+    at async l (/Users/admin/Project/LandingPage/landing_show_cloths/stitch_modern_apparel_showcase_gallery/shopee-clone/node_modules/@prisma/client/runtime/library.js:130:9633)
+    at async Promise.all (index 0)
+    at async d (/Users/admin/Project/LandingPage/landing_show_cloths/stitch_modern_apparel_showcase_gallery/shopee-clone/.next/server/app/page.js:1:7284)
+    at async x (/Users/admin/Project/LandingPage/landing_show_cloths/stitch_modern_apparel_showcase_gallery/shopee-clone/.next/server/app/page.js:1:7567) {
+  clientVersion: '5.22.0',
+  errorCode: undefined
+}
+PrismaClientInitializationError: 
+Invalid `prisma.product.findMany()` invocation:
+
+
+Can't reach database server at `aws-1-ap-southeast-1.pooler.supabase.com:6543`
+
+Please make sure your database server is running at `aws-1-ap-southeast-1.pooler.supabase.com:6543`.
+    at $n.handleRequestError (/Users/admin/Project/LandingPage/landing_show_cloths/stitch_modern_apparel_showcase_gallery/shopee-clone/node_modules/@prisma/client/runtime/library.js:121:7615)
+    at $n.handleAndLogRequestError (/Users/admin/Project/LandingPage/landing_show_cloths/stitch_modern_apparel_showcase_gallery/shopee-clone/node_modules/@prisma/client/runtime/library.js:121:6623)
+    at $n.request (/Users/admin/Project/LandingPage/landing_show_cloths/stitch_modern_apparel_showcase_gallery/shopee-clone/node_modules/@prisma/client/runtime/library.js:121:6307)
+    at async l (/Users/admin/Project/LandingPage/landing_show_cloths/stitch_modern_apparel_showcase_gallery/shopee-clone/node_modules/@prisma/client/runtime/library.js:130:9633)
+    at async Promise.all (index 0)
+    at async d (/Users/admin/Project/LandingPage/landing_show_cloths/stitch_modern_apparel_showcase_gallery/shopee-clone/.next/server/app/page.js:1:7284)
+    at async x (/Users/admin/Project/LandingPage/landing_show_cloths/stitch_modern_apparel_showcase_gallery/shopee-clone/.next/server/app/page.js:1:7567) {
+  clientVersion: '5.22.0',
+  errorCode: undefined
+}
+ ✓ Generating static pages (15/15) 
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                              Size     First Load JS
+┌ λ /                                    1.87 kB        97.7 kB
+├ λ /_not-found                          885 B          85.1 kB
+├ λ /about                               186 B            96 kB
+├ λ /admin                               955 B          85.2 kB
+├ λ /admin/about                         3.31 kB        87.6 kB
+├ λ /admin/categories                    2.1 kB         93.1 kB
+├ λ /admin/categories/[id]               977 B            92 kB
+├ λ /admin/products                      2.32 kB        98.2 kB
+├ λ /admin/products/[id]                 2.6 kB         98.4 kB
+├ λ /admin/settings                      292 B          89.4 kB
+├ λ /api/auth/[...nextauth]              0 B                0 B
+├ λ /api/auth/register                   0 B                0 B
+├ λ /api/categories                      0 B                0 B
+├ λ /api/products                        0 B                0 B
+├ λ /api/products/[id]                   0 B                0 B
+├ λ /auth/login                          12.4 kB         103 kB
+├ λ /auth/register                       2.82 kB        93.8 kB
+├ λ /products                            2.88 kB        98.7 kB
+└ λ /products/[id]                       4.71 kB         101 kB
++ First Load JS shared by all            84.3 kB
+  ├ chunks/69-fa0ed4cedee52dea.js        28.9 kB
+  ├ chunks/fd9d1056-4cc8c741bea0c450.js  53.4 kB
+  └ other shared chunks (total)          1.95 kB
+
+
+λ  (Dynamic)  server-rendered on demand using Node.js
+
