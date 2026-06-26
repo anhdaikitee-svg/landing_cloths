@@ -15,9 +15,18 @@ export async function GET(request: Request) {
   const where: Record<string, unknown> = { isActive: true }
 
   if (category) {
-    where.category = { slug: category }
+    const targetCat = await prisma.category.findUnique({
+      where: { slug: category },
+      include: { children: { select: { id: true } } }
+    })
+    
+    if (targetCat) {
+      const catIds = [targetCat.id, ...targetCat.children.map(c => c.id)]
+      where.categoryId = { in: catIds }
+    } else {
+      where.category = { slug: category }
+    }
   }
-
   if (search) {
     where.name = { contains: search, mode: 'insensitive' }
   }
