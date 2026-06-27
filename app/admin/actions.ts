@@ -92,6 +92,7 @@ export async function createProduct(formData: FormData) {
   const description = formData.get('description') as string
   const price = parseFloat(formData.get('price') as string) || 0
   const categoryId = formData.get('categoryId') as string
+  const isFeatured = formData.get('isFeatured') === 'on'
 
   // Handle file uploads
   const imageFiles = formData.getAll('images') as File[]
@@ -123,6 +124,7 @@ export async function createProduct(formData: FormData) {
       sizeChartImage,
       priceChartImage,
       embroideryNote,
+      isFeatured,
       isActive: true,
     }
   })
@@ -184,6 +186,7 @@ export async function updateProduct(id: string, formData: FormData) {
   const description = formData.get('description') as string
   const price = parseFloat(formData.get('price') as string) || 0
   const categoryId = formData.get('categoryId') as string
+  const isFeatured = formData.get('isFeatured') === 'on'
 
   // Handle new file uploads
   const imageFiles = formData.getAll('images') as File[]
@@ -204,6 +207,7 @@ export async function updateProduct(id: string, formData: FormData) {
     price,
     categoryId,
     embroideryNote,
+    isFeatured,
   }
 
   const sizeChartFile = formData.get('sizeChartImage') as File

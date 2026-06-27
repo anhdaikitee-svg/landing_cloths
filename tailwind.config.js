@@ -16,8 +16,8 @@ module.exports = {
         }
       },
       fontFamily: {
-        serif: ['var(--font-playfair)', 'serif'],
-        sans: ['var(--font-inter)', 'sans-serif'],
+        serif: ['Inter', 'sans-serif'],
+        sans: ['Inter', 'sans-serif'],
       },
       keyframes: {
         wiggle: {

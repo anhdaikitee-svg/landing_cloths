@@ -84,6 +84,10 @@ export default function CreateProductForm({
           <label className="block text-sm text-gray-600 mb-1">Lưu ý vùng thêu</label>
           <textarea name="embroideryNote" rows={3} placeholder="VD: Vùng thêu ngực: Kích thước tối đa..." className="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-brand-dark" />
         </div>
+        <div className="flex items-center gap-2 py-2">
+          <input type="checkbox" id="isFeatured" name="isFeatured" className="w-4 h-4 text-brand-dark border-gray-300 rounded focus:ring-brand-dark cursor-pointer" />
+          <label htmlFor="isFeatured" className="text-sm text-gray-600 select-none cursor-pointer">Sản phẩm nổi bật (Hiện ở Trang Chủ)</label>
+        </div>
         <button 
           type="submit" 
           disabled={isPending}
