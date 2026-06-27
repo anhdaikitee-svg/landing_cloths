@@ -4,28 +4,40 @@ import ProductCard from '@/components/product/ProductCard'
 
 async function getHomeData() {
   try {
-    const [featuredProducts, categories] = await Promise.all([
+    const [featuredProducts, latestProducts, categories] = await Promise.all([
       prisma.product.findMany({
         where: { isActive: true, isFeatured: true },
+        take: 4,
+        include: { category: { select: { name: true, slug: true } } },
+        orderBy: { createdAt: 'desc' }
+      }),
+      prisma.product.findMany({
+        where: { isActive: true },
         take: 10,
         include: { category: { select: { name: true, slug: true } } },
         orderBy: { createdAt: 'desc' }
       }),
       prisma.category.findMany({ where: { parentId: null }, take: 4 }),
     ])
-    return { featuredProducts, categories }
+    return { featuredProducts, latestProducts, categories }
   } catch (error) {
     console.error("Failed to fetch home data", error)
-    return { featuredProducts: [], categories: [] }
+    return { featuredProducts: [], latestProducts: [], categories: [] }
   }
 }
 
 export default async function HomePage() {
-  const { featuredProducts } = await getHomeData()
+  const { featuredProducts, latestProducts } = await getHomeData()
 
-  const heroProduct = featuredProducts[0]
+  const heroProduct = featuredProducts[0] || latestProducts[0]
   const gridProducts = featuredProducts.slice(1, 4)
-  const listProducts = featuredProducts.slice(4)
+  
+  // Filter out any products already displayed in hero or grid to avoid duplication
+  const displayedIds = new Set([
+    ...(heroProduct ? [heroProduct.id] : []),
+    ...gridProducts.map(p => p.id)
+  ])
+  const listProducts = latestProducts.filter(p => !displayedIds.has(p.id))
 
   return (
     <div className="bg-brand-light min-h-screen pt-24 pb-32">
@@ -57,7 +69,7 @@ export default async function HomePage() {
           <div className="lg:w-2/3">
             <div className="flex items-center justify-between border-b-2 border-brand-dark pb-4 mb-10">
               <h2 className="font-serif text-2xl tracking-widest uppercase text-brand-dark">
-                Tin Tức Mới Nhất
+                Sản Phẩm Mới Nhất
               </h2>
             </div>
             
@@ -67,7 +79,7 @@ export default async function HomePage() {
               ))}
               
               {listProducts.length === 0 && (
-                <p className="text-gray-500 italic font-serif">Đang cập nhật thêm bài viết...</p>
+                <p className="text-gray-500 italic font-serif">Đang cập nhật sản phẩm...</p>
               )}
             </div>
 
