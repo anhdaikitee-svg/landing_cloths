@@ -20,7 +20,7 @@ const lora = Lora({
 })
 
 export const metadata: Metadata = {
-  title: "WIN WIN - Bộ Sưu Tập Thời Trang",
+  title: "WIN-WIN EMBROIDERY",
   description: 'Khám phá các bộ sưu tập thời trang cao cấp mang đậm di sản nghệ thuật.',
 }
 
