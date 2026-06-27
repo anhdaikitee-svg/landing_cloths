@@ -28,7 +28,7 @@ export default async function HomePage() {
       {/* Header Style Magazine */}
       <div className="max-w-7xl mx-auto px-6 mb-12 text-center">
         <h1 className="font-serif text-5xl md:text-7xl text-brand-dark tracking-tighter mb-4">
-          WIN- WIN
+          WIN - WIN
         </h1>
         <p className="text-xs uppercase tracking-[0.3em] text-gray-500">
           EMBROIDERY

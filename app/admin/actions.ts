@@ -47,14 +47,14 @@ async function deleteFromR2(url: string) {
   if (!url) return
   const { R2_BUCKET_NAME, R2_PUBLIC_URL } = process.env
   if (!R2_PUBLIC_URL || !url.startsWith(R2_PUBLIC_URL)) return
-  
+
   const key = url.replace(`${R2_PUBLIC_URL}/`, '')
-  
+
   const command = new DeleteObjectCommand({
     Bucket: R2_BUCKET_NAME,
     Key: key,
   })
-  
+
   try {
     await r2.send(command)
   } catch (error) {
@@ -92,7 +92,7 @@ export async function createProduct(formData: FormData) {
   const description = formData.get('description') as string
   const price = parseFloat(formData.get('price') as string) || 0
   const categoryId = formData.get('categoryId') as string
-  
+
   // Handle file uploads
   const imageFiles = formData.getAll('images') as File[]
   const imageUrls: string[] = []
@@ -133,7 +133,7 @@ export async function createProduct(formData: FormData) {
 export async function deleteProduct(id: string) {
   try {
     await checkAdmin()
-    
+
     const product = await prisma.product.findUnique({
       where: { id },
       select: { images: true, sizeChartImage: true, priceChartImage: true }
@@ -184,7 +184,7 @@ export async function updateProduct(id: string, formData: FormData) {
   const description = formData.get('description') as string
   const price = parseFloat(formData.get('price') as string) || 0
   const categoryId = formData.get('categoryId') as string
-  
+
   // Handle new file uploads
   const imageFiles = formData.getAll('images') as File[]
   const imageUrls: string[] = []
@@ -217,7 +217,7 @@ export async function updateProduct(id: string, formData: FormData) {
   if (priceChartImage) {
     updateData.priceChartImage = priceChartImage
   }
-  
+
   // Only update images if new ones are uploaded
   if (imageUrls.length > 0) {
     updateData.images = imageUrls
@@ -234,7 +234,7 @@ export async function updateProduct(id: string, formData: FormData) {
     where: { id },
     data: updateData
   })
-  
+
   revalidatePath('/admin/products')
   revalidatePath('/products')
   revalidatePath(`/products/${id}`)
