@@ -61,7 +61,7 @@ export default function Header({ session, siteName, siteLogo, categories = [] }:
             <img src={siteLogo} alt={siteName || "Logo"} className="h-8 md:h-10 mx-auto md:mx-0 object-contain" />
           ) : (
             <span className="font-serif text-2xl md:text-3xl font-bold tracking-widest text-brand-dark">
-              {siteName || "L'ART DE VIVRE"}
+              {siteName || "WIN WIN"}
             </span>
           )}
         </Link>

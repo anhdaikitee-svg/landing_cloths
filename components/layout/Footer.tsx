@@ -71,7 +71,7 @@ export default function Footer({ siteName, siteLogo }: { siteName?: string; site
         </div>
 
         <div className="border-t border-gray-800 mt-16 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs tracking-widest text-gray-500">
-          <p>© 2024 L&apos;ART DE VIVRE. ALL RIGHTS RESERVED.</p>
+          <p>© 2024 WIN WIN. ALL RIGHTS RESERVED.</p>
           <div className="flex gap-6">
             <a href="#" className="hover:text-white transition-colors">CHÍNH SÁCH</a>
             <a href="#" className="hover:text-white transition-colors">BẢO MẬT</a>

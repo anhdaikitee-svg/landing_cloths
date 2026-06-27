@@ -9,7 +9,7 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
   })
   if (!product) return {}
   return {
-    title: `${product.name} | L'Art de Vivre`,
+    title: `${product.name} | WIN WIN`,
     description: product.description ?? undefined,
     openGraph: { images: product.images[0] ? [product.images[0]] : [] },
   }

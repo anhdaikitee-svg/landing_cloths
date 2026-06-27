@@ -32,7 +32,7 @@ export default function RegisterPage() {
       <div className="w-full max-w-md">
         <div className="bg-white rounded-sm shadow-xl p-8">
           <div className="text-center mb-6">
-            <Link href="/" className="text-shopee-orange font-bold text-2xl italic">L&apos;Art de Vivre</Link>
+            <Link href="/" className="text-shopee-orange font-bold text-2xl italic">WIN WIN</Link>
             <h1 className="text-gray-800 text-xl font-bold mt-2">Đăng Ký</h1>
           </div>
 

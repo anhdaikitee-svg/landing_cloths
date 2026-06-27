@@ -1,4 +1,4 @@
-# Shopee Clone — L'Art de Vivre
+# Shopee Clone — WIN WIN
 
 Web bán hàng thời trang Indochine Moderne, xây dựng trên Next.js 14 + PostgreSQL.
 

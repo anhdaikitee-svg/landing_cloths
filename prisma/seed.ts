@@ -105,7 +105,7 @@ async function main() {
     // ===== MŨ =====
     {
       name: "Mũ Fedora L'Art Classic", slug: 'mu-fedora-lart-classic',
-      description: "Mũ fedora chế tác thủ công với lụa Vạn Phúc và chi tiết sơn mài. Biểu tượng thương hiệu L'Art de Vivre.",
+      description: "Mũ fedora chế tác thủ công với lụa Vạn Phúc và chi tiết sơn mài. Biểu tượng thương hiệu WIN WIN.",
       price: 5000000, salePrice: 4500000, images: [PRODUCT_IMAGES.mu1], categoryId: catMu.id, rating: 4.9, soldCount: 210,
       colors: [
         { name: 'Đen Sơn Mài', hex: '#1A1A1A', stock: 5, images: [PRODUCT_IMAGES.mu1] },

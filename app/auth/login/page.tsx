@@ -38,7 +38,7 @@ export default function LoginPage() {
       <div className="w-full max-w-md">
         <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-8">
           <div className="text-center mb-10">
-            <h1 className="font-serif text-3xl font-bold tracking-widest text-brand-dark">L&apos;ART DE VIVRE</h1>
+            <h1 className="font-serif text-3xl font-bold tracking-widest text-brand-dark">WIN WIN</h1>
             <h2 className="text-gray-500 text-xs tracking-[0.2em] uppercase mt-4">Đăng Nhập</h2>
           </div>
 

@@ -20,7 +20,7 @@ const lora = Lora({
 })
 
 export const metadata: Metadata = {
-  title: "L'Art de Vivre - Bộ Sưu Tập Thời Trang",
+  title: "WIN WIN - Bộ Sưu Tập Thời Trang",
   description: 'Khám phá các bộ sưu tập thời trang cao cấp mang đậm di sản nghệ thuật.',
 }
 
@@ -38,7 +38,7 @@ export default async function RootLayout({
     console.error("Failed to fetch settings", error)
   }
   
-  const siteName = settings.find(s => s.key === 'site_name')?.value || "L'ART DE VIVRE"
+  const siteName = settings.find(s => s.key === 'site_name')?.value || "WIN WIN"
   const siteLogo = settings.find(s => s.key === 'site_logo')?.value || ""
 
   let categories: any[] = []

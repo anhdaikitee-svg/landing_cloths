@@ -9,7 +9,7 @@ export default async function SettingsPage() {
   const getSetting = (key: string) => settings.find(s => s.key === key)?.value || ''
 
   const currentLogo = getSetting('site_logo')
-  const currentName = getSetting('site_name') || "L'ART DE VIVRE"
+  const currentName = getSetting('site_name') || "WIN WIN"
 
   return (
     <div>

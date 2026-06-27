@@ -28,10 +28,10 @@ export default async function HomePage() {
       {/* Header Style Magazine */}
       <div className="max-w-7xl mx-auto px-6 mb-12 text-center">
         <h1 className="font-serif text-5xl md:text-7xl text-brand-dark tracking-tighter mb-4">
-          L'ART DE VIVRE
+          WIN- WIN
         </h1>
         <p className="text-xs uppercase tracking-[0.3em] text-gray-500">
-          The Latest Collections & Editorial
+          EMBROIDERY
         </p>
         <div className="w-full h-px bg-brand-dark mt-10 mb-2 opacity-20" />
         <div className="w-full h-[2px] bg-brand-dark opacity-30" />
@@ -86,7 +86,7 @@ export default async function HomePage() {
             <div className="mt-16 bg-gray-50 p-8 rounded-xl border border-gray-100 text-center">
               <h3 className="font-serif text-2xl text-brand-dark mb-4">Nhận Bản Tin</h3>
               <p className="text-gray-500 text-sm mb-6 leading-relaxed">
-                Đăng ký để nhận những câu chuyện và bộ sưu tập mới nhất từ L'Art de Vivre.
+                Đăng ký để nhận những câu chuyện và bộ sưu tập mới nhất từ WIN WIN.
               </p>
               <input 
                 type="email" 

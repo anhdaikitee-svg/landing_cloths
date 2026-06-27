@@ -3,8 +3,8 @@ import Link from 'next/link'
 import { prisma } from '@/lib/prisma'
 
 export const metadata = {
-  title: 'Giới Thiệu - L\'Art de Vivre',
-  description: 'Câu chuyện và triết lý nghệ thuật của L\'Art de Vivre.',
+  title: 'Giới Thiệu - WIN WIN',
+  description: 'Câu chuyện và triết lý nghệ thuật của WIN WIN.',
 }
 
 async function getAboutData() {
@@ -26,7 +26,7 @@ async function getAboutData() {
         {
           id: '1',
           title: 'Triết Lý Độc Bản',
-          content: 'L\'Art de Vivre ra đời từ niềm đam mê sâu sắc với vẻ đẹp vượt thời gian...',
+          content: 'WIN WIN ra đời từ niềm đam mê sâu sắc với vẻ đẹp vượt thời gian...',
           image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBxLFsUw-tPmG0cxkpSgfY7s4C6eizE0OQTokyDEs7qQs7rb14VPQAOvtm8sd12GH3SD-noMcPG1C6lRyTb8d6acFPS1jxW9fCuBIfUCqbzj2TQXGM34egY1Gacp82P_JWY6vmxyxirVYgPTWR9WjyN4bq0GGt5Kbei3h1X0AQFYKHJel8rcf_ztDHZbckSNwCVcuBuEXNLGkupM-VeDae27EMQgHqtsYAxWVLgVCDHSI60VkAYJde-zCrIDyfjaalpkhKGiNYT3tk'
         },
         {
