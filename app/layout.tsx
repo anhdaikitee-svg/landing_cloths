@@ -21,7 +21,7 @@ const lora = Lora({
 
 export const metadata: Metadata = {
   title: "WIN - WIN EMBROIDERY",
-  description: 'Khám phá các bộ sưu tập thời trang cao cấp mang đậm di sản nghệ thuật.',
+  description: '',
 }
 
 export default async function RootLayout({

@@ -3,16 +3,21 @@ import Link from 'next/link'
 import ProductCard from '@/components/product/ProductCard'
 
 async function getHomeData() {
-  const [featuredProducts, categories] = await Promise.all([
-    prisma.product.findMany({
-      where: { isActive: true },
-      take: 10,
-      include: { category: { select: { name: true, slug: true } } },
-      orderBy: { createdAt: 'desc' }
-    }),
-    prisma.category.findMany({ where: { parentId: null }, take: 4 }),
-  ])
-  return { featuredProducts, categories }
+  try {
+    const [featuredProducts, categories] = await Promise.all([
+      prisma.product.findMany({
+        where: { isActive: true },
+        take: 10,
+        include: { category: { select: { name: true, slug: true } } },
+        orderBy: { createdAt: 'desc' }
+      }),
+      prisma.category.findMany({ where: { parentId: null }, take: 4 }),
+    ])
+    return { featuredProducts, categories }
+  } catch (error) {
+    console.error("Failed to fetch home data", error)
+    return { featuredProducts: [], categories: [] }
+  }
 }
 
 export default async function HomePage() {
