@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
-import { Search, Menu, X, MapPin, User as UserIcon } from 'lucide-react'
+import { Search, Menu, X, MapPin, User as UserIcon, ChevronDown, ChevronUp } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 
 
@@ -13,6 +13,7 @@ export default function Header({ session, siteName, siteLogo, categories = [] }:
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
+  const [expandedCategory, setExpandedCategory] = useState<string | null>(null)
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20)
@@ -141,20 +142,34 @@ export default function Header({ session, siteName, siteLogo, categories = [] }:
           <nav className="flex flex-col gap-6 items-center pt-10">
             {dynamicNav.map((cat) => (
               <div key={cat.href} className="flex flex-col items-center">
-                <Link
-                  href={cat.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="text-lg font-serif tracking-widest text-brand-dark hover:text-brand-gold"
-                >
-                  {cat.label}
-                </Link>
-                {cat.children.length > 0 && (
+                <div className="flex items-center gap-2">
+                  <Link
+                    href={cat.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="text-lg font-serif tracking-widest text-brand-dark hover:text-brand-gold"
+                  >
+                    {cat.label}
+                  </Link>
+                  {cat.children.length > 0 && (
+                    <button
+                      onClick={() => setExpandedCategory(expandedCategory === cat.label ? null : cat.label)}
+                      className="p-1 text-brand-dark hover:text-brand-gold"
+                    >
+                      {expandedCategory === cat.label ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+                    </button>
+                  )}
+                </div>
+                
+                {cat.children.length > 0 && expandedCategory === cat.label && (
                   <div className="flex flex-col items-center mt-3 gap-2">
                     {cat.children.map((child: any) => (
                       <Link
                         key={child.slug}
                         href={`/products?category=${child.slug}`}
-                        onClick={() => setMobileMenuOpen(false)}
+                        onClick={() => {
+                          setMobileMenuOpen(false)
+                          setExpandedCategory(null)
+                        }}
                         className="text-sm font-sans text-gray-500 hover:text-brand-gold"
                       >
                         {child.name}
