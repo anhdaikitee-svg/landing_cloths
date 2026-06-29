@@ -34,7 +34,12 @@ export default async function RootLayout({
   try {
     categories = await prisma.category.findMany({
       where: { parentId: null },
-      include: { children: true }
+      orderBy: { name: 'asc' },
+      include: {
+        children: {
+          orderBy: { name: 'asc' }
+        }
+      }
     })
   } catch (error) {
     console.error("Failed to fetch categories", error)
