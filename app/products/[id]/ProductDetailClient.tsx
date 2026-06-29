@@ -50,11 +50,19 @@ export default function ProductDetailClient({ product, related }: { product: Pro
         <div className="relative aspect-square w-full max-w-3xl mx-auto bg-[#f8f9fa] rounded-2xl overflow-hidden shadow-sm mb-16 group">
           {displayImages.length > 0 ? (
             <>
+              {/* Blurred background backdrop */}
+              <Image 
+                src={displayImages[currentImageIndex]} 
+                alt="" 
+                fill 
+                className="object-cover blur-2xl opacity-25 scale-105 select-none pointer-events-none" 
+              />
+              {/* Main contained image */}
               <Image 
                 src={displayImages[currentImageIndex]} 
                 alt={`${product.name} - ${currentImageIndex + 1}`} 
                 fill 
-                className="object-cover transition-opacity duration-300" 
+                className="object-contain relative z-10 transition-opacity duration-300" 
                 priority 
                 sizes="100vw" 
               />
