@@ -188,16 +188,25 @@ export async function updateProduct(id: string, formData: FormData) {
   const categoryId = formData.get('categoryId') as string
   const isFeatured = formData.get('isFeatured') === 'on'
 
+  // Get existing images from form
+  const existingImagesJson = formData.get('existingImagesJson') as string
+  let images: string[] = []
+  if (existingImagesJson) {
+    images = JSON.parse(existingImagesJson)
+  }
+
   // Handle new file uploads
   const imageFiles = formData.getAll('images') as File[]
-  const imageUrls: string[] = []
+  const newImageUrls: string[] = []
 
   if (imageFiles && imageFiles.length > 0) {
     for (const file of imageFiles) {
       const url = await uploadToR2(file)
-      if (url) imageUrls.push(url)
+      if (url) newImageUrls.push(url)
     }
   }
+
+  const finalImages = [...images, ...newImageUrls]
 
   const embroideryNote = formData.get('embroideryNote') as string
 
@@ -208,6 +217,7 @@ export async function updateProduct(id: string, formData: FormData) {
     categoryId,
     embroideryNote,
     isFeatured,
+    images: finalImages,
   }
 
   const sizeChartFile = formData.get('sizeChartImage') as File
@@ -222,9 +232,7 @@ export async function updateProduct(id: string, formData: FormData) {
     updateData.priceChartImage = priceChartImage
   }
 
-  // Only update images if new ones are uploaded
-  if (imageUrls.length > 0) {
-    updateData.images = imageUrls
+  if (newImageUrls.length > 0) {
     // Clear mock images from associated colors to prevent them from showing up alongside new images
     updateData.colors = {
       updateMany: {

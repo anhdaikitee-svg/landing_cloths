@@ -15,6 +15,25 @@ export default function EditProductForm({
 }) {
   const [isPending, setIsPending] = useState(false)
   const [showSuccess, setShowSuccess] = useState(false)
+  const [images, setImages] = useState<string[]>(product.images || [])
+
+  const removeImage = (index: number) => {
+    setImages(images.filter((_, i) => i !== index))
+  }
+
+  const moveImage = (index: number, direction: 'left' | 'right') => {
+    const newImages = [...images]
+    if (direction === 'left' && index > 0) {
+      const temp = newImages[index]
+      newImages[index] = newImages[index - 1]
+      newImages[index - 1] = temp
+    } else if (direction === 'right' && index < images.length - 1) {
+      const temp = newImages[index]
+      newImages[index] = newImages[index + 1]
+      newImages[index + 1] = temp
+    }
+    setImages(newImages)
+  }
 
   async function handleSubmit(formData: FormData) {
     try {
@@ -64,15 +83,52 @@ export default function EditProductForm({
         </div>
 
         <div>
-          <label className="block text-sm text-gray-600 mb-1">Ảnh Hiện Tại</label>
-          <div className="flex gap-2 mb-2">
-            {product.images.map((img: string, i: number) => (
-              <div key={i} className="w-16 h-16 relative rounded border overflow-hidden">
-                <Image src={img} alt="" fill className="object-cover" sizes="64px"/>
-              </div>
-            ))}
-          </div>
-          <label className="block text-sm text-gray-600 mb-1">Tải lên ảnh mới (Bỏ trống nếu muốn giữ ảnh cũ)</label>
+          <label className="block text-sm text-gray-600 mb-2 font-medium">Quản lý & Sắp xếp ảnh hiện tại</label>
+          <input type="hidden" name="existingImagesJson" value={JSON.stringify(images)} />
+          
+          {images.length > 0 ? (
+            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3 mb-4">
+              {images.map((img: string, i: number) => (
+                <div key={i} className="group relative border rounded p-1 flex flex-col bg-gray-50 hover:border-brand-gold transition duration-200">
+                  <div className="w-full aspect-square relative rounded overflow-hidden">
+                    <Image src={img} alt="" fill className="object-cover" sizes="120px"/>
+                  </div>
+                  <div className="flex justify-between items-center gap-1 mt-2 text-xs">
+                    <button
+                      type="button"
+                      disabled={i === 0}
+                      onClick={() => moveImage(i, 'left')}
+                      className="px-1.5 py-0.5 border rounded bg-white hover:bg-gray-100 disabled:opacity-30 disabled:hover:bg-white text-gray-600"
+                      title="Di chuyển sang trái"
+                    >
+                      ←
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => removeImage(i)}
+                      className="text-red-500 font-bold px-2 py-0.5 hover:bg-red-50 rounded"
+                      title="Xóa ảnh"
+                    >
+                      Xóa
+                    </button>
+                    <button
+                      type="button"
+                      disabled={i === images.length - 1}
+                      onClick={() => moveImage(i, 'right')}
+                      className="px-1.5 py-0.5 border rounded bg-white hover:bg-gray-100 disabled:opacity-30 disabled:hover:bg-white text-gray-600"
+                      title="Di chuyển sang phải"
+                    >
+                      →
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-sm text-gray-400 italic mb-4">Không có hình ảnh hiện tại nào.</p>
+          )}
+
+          <label className="block text-sm text-gray-600 mb-1">Tải lên thêm ảnh mới (Ảnh mới sẽ được thêm vào cuối danh sách)</label>
           <input type="file" name="images" multiple accept="image/*" className="w-full border rounded px-3 py-2 text-sm bg-white focus:outline-none focus:ring-1 focus:ring-brand-dark" />
         </div>
 
