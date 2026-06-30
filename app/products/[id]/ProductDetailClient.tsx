@@ -20,6 +20,8 @@ interface RelatedProduct {
 export default function ProductDetailClient({ product, related }: { product: Product; related: RelatedProduct[] }) {
   const displayImages = product.images
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
+  const [dragStartX, setDragStartX] = useState<number | null>(null)
+  const [isDragging, setIsDragging] = useState(false)
 
   const nextImage = () => {
     setCurrentImageIndex((prev) => (prev + 1) % displayImages.length)
@@ -27,6 +29,22 @@ export default function ProductDetailClient({ product, related }: { product: Pro
 
   const prevImage = () => {
     setCurrentImageIndex((prev) => (prev - 1 + displayImages.length) % displayImages.length)
+  }
+
+  const handleDragStart = (clientX: number) => {
+    setDragStartX(clientX)
+    setIsDragging(true)
+  }
+
+  const handleDragEnd = (clientX: number) => {
+    if (!isDragging || dragStartX === null) return
+    const diff = dragStartX - clientX
+    if (Math.abs(diff) > 50) {
+      if (diff > 0) nextImage()
+      else prevImage()
+    }
+    setDragStartX(null)
+    setIsDragging(false)
   }
 
   return (
@@ -47,7 +65,9 @@ export default function ProductDetailClient({ product, related }: { product: Pro
         </header>
 
         {/* Hero Image Slider */}
-        <div className="relative aspect-square w-full max-w-3xl mx-auto bg-[#f8f9fa] rounded-2xl overflow-hidden shadow-sm mb-16 group">
+        <div
+          className="relative aspect-square w-full max-w-3xl mx-auto bg-[#f8f9fa] rounded-2xl overflow-hidden shadow-sm mb-16 group select-none"
+        >
           {displayImages.length > 0 ? (
             <>
               {/* Blurred background backdrop */}
@@ -62,27 +82,39 @@ export default function ProductDetailClient({ product, related }: { product: Pro
                 src={displayImages[currentImageIndex]} 
                 alt={`${product.name} - ${currentImageIndex + 1}`} 
                 fill 
-                className="object-contain relative z-10 transition-opacity duration-300" 
+                className="object-contain relative z-10 transition-opacity duration-300 pointer-events-none" 
                 priority 
                 sizes="100vw" 
               />
+              {/* Transparent drag/swipe overlay */}
+              {displayImages.length > 1 && (
+                <div
+                  className={`absolute inset-0 z-20 ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
+                  onTouchStart={(e) => handleDragStart(e.touches[0].clientX)}
+                  onTouchEnd={(e) => handleDragEnd(e.changedTouches[0].clientX)}
+                  onTouchCancel={() => { setDragStartX(null); setIsDragging(false) }}
+                  onMouseDown={(e) => { e.preventDefault(); handleDragStart(e.clientX) }}
+                  onMouseUp={(e) => handleDragEnd(e.clientX)}
+                  onMouseLeave={() => { setDragStartX(null); setIsDragging(false) }}
+                />
+              )}
               {displayImages.length > 1 && (
                 <>
                   <button 
                     onClick={prevImage}
-                    className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/80 backdrop-blur text-brand-dark rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white shadow-sm"
+                    className="absolute left-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 bg-white/80 backdrop-blur text-brand-dark rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white shadow-sm"
                   >
                     <ChevronLeft size={24} />
                   </button>
                   <button 
                     onClick={nextImage}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/80 backdrop-blur text-brand-dark rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white shadow-sm"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 bg-white/80 backdrop-blur text-brand-dark rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white shadow-sm"
                   >
                     <ChevronRight size={24} />
                   </button>
                   
                   {/* Dots indicator */}
-                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-30">
                     {displayImages.map((_, idx) => (
                       <button
                         key={idx}
