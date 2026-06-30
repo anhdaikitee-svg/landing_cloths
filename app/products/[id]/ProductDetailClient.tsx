@@ -11,6 +11,7 @@ interface Product {
   id: string; name: string; description: string | null
   images: string[]; colors: Color[]; price: number
   category: { name: string; slug: string }
+  realPhotos?: string[]
 }
 interface RelatedProduct {
   id: string; name: string; images: string[]
@@ -22,6 +23,8 @@ export default function ProductDetailClient({ product, related }: { product: Pro
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const [dragStartX, setDragStartX] = useState<number | null>(null)
   const [isDragging, setIsDragging] = useState(false)
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
+  const realPhotos = (product as any).realPhotos as string[] || []
 
   const nextImage = () => {
     setCurrentImageIndex((prev) => (prev + 1) % displayImages.length)
@@ -145,6 +148,75 @@ export default function ProductDetailClient({ product, related }: { product: Pro
                 <Image src={img} alt={`Thumbnail ${idx + 1}`} fill className="object-cover" sizes="96px" />
               </button>
             ))}
+          </div>
+        )}
+
+        {/* Real Photos Grid */}
+        {realPhotos.length > 0 && (
+          <section className="mb-16">
+            <div className="flex items-center justify-between border-b-2 border-brand-dark pb-4 mb-8">
+              <h2 className="font-serif text-2xl tracking-widest uppercase text-brand-dark">Ảnh Thực Tế Sản Phẩm</h2>
+              <span className="text-sm text-gray-400">{realPhotos.length} ảnh</span>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+              {realPhotos.map((img, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setLightboxIndex(idx)}
+                  className="group relative aspect-square rounded-xl overflow-hidden bg-gray-100 border border-gray-200 hover:border-brand-dark transition-all duration-200 shadow-sm hover:shadow-md"
+                >
+                  <Image src={img} alt={`Ảnh thực tế ${idx + 1}`} fill className="object-cover transition-transform duration-500 group-hover:scale-105" sizes="(max-width: 640px) 50vw, 25vw" />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all flex items-center justify-center">
+                    <span className="text-white text-xs font-medium opacity-0 group-hover:opacity-100 transition bg-black/50 px-2 py-1 rounded">Phóng to</span>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* Lightbox Modal */}
+        {lightboxIndex !== null && (
+          <div
+            className="fixed inset-0 z-[100] bg-black/90 flex items-center justify-center p-4"
+            onClick={() => setLightboxIndex(null)}
+          >
+            {/* Close button */}
+            <button
+              className="absolute top-4 right-4 text-white w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-xl transition"
+              onClick={() => setLightboxIndex(null)}
+            >
+              ✕
+            </button>
+            {/* Prev */}
+            {realPhotos.length > 1 && (
+              <button
+                className="absolute left-4 top-1/2 -translate-y-1/2 text-white w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition z-10"
+                onClick={(e) => { e.stopPropagation(); setLightboxIndex((lightboxIndex - 1 + realPhotos.length) % realPhotos.length) }}
+              >
+                <ChevronLeft size={24} />
+              </button>
+            )}
+            {/* Main image */}
+            <div className="relative max-w-4xl w-full max-h-[85vh] flex items-center justify-center" onClick={(e) => e.stopPropagation()}>
+              <img
+                src={realPhotos[lightboxIndex]}
+                alt={`Ảnh thực tế ${lightboxIndex + 1}`}
+                className="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl"
+              />
+              <div className="absolute bottom-2 left-1/2 -translate-x-1/2 text-white/60 text-sm">
+                {lightboxIndex + 1} / {realPhotos.length}
+              </div>
+            </div>
+            {/* Next */}
+            {realPhotos.length > 1 && (
+              <button
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-white w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition z-10"
+                onClick={(e) => { e.stopPropagation(); setLightboxIndex((lightboxIndex + 1) % realPhotos.length) }}
+              >
+                <ChevronRight size={24} />
+              </button>
+            )}
           </div>
         )}
 

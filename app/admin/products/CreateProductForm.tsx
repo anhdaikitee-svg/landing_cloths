@@ -88,6 +88,11 @@ export default function CreateProductForm({
           <input type="checkbox" id="isFeatured" name="isFeatured" className="w-4 h-4 text-brand-dark border-gray-300 rounded focus:ring-brand-dark cursor-pointer" />
           <label htmlFor="isFeatured" className="text-sm text-gray-600 select-none cursor-pointer">Sản phẩm nổi bật (Hiện ở Trang Chủ)</label>
         </div>
+        <div className="border-t pt-4 mt-2">
+          <label className="block text-sm font-medium text-gray-700 mb-1">📸 Ảnh Thực Tế Sản Phẩm (Tùy chọn)</label>
+          <p className="text-xs text-gray-400 mb-2">Đăng ảnh thực tế sản phẩm để khách hàng xem. Hỗ trợ nhiều ảnh cùng lúc.</p>
+          <input type="file" name="realPhotos" multiple accept="image/*" className="w-full border rounded px-3 py-2 text-sm bg-white focus:outline-none focus:ring-1 focus:ring-brand-dark" />
+        </div>
         <button 
           type="submit" 
           disabled={isPending}

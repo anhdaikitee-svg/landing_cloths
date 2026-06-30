@@ -113,6 +113,16 @@ export async function createProduct(formData: FormData) {
 
   const embroideryNote = formData.get('embroideryNote') as string
 
+  // Handle real photos uploads
+  const realPhotoFiles = formData.getAll('realPhotos') as File[]
+  const realPhotoUrls: string[] = []
+  if (realPhotoFiles && realPhotoFiles.length > 0) {
+    for (const file of realPhotoFiles) {
+      const url = await uploadToR2(file, 'real-photos')
+      if (url) realPhotoUrls.push(url)
+    }
+  }
+
   await prisma.product.create({
     data: {
       name,
@@ -125,6 +135,7 @@ export async function createProduct(formData: FormData) {
       priceChartImage,
       embroideryNote,
       isFeatured,
+      realPhotos: realPhotoUrls,
       isActive: true,
     }
   })
@@ -242,6 +253,19 @@ export async function updateProduct(id: string, formData: FormData) {
     }
   }
 
+  // Handle real photos for update
+  const existingRealPhotosJson = formData.get('existingRealPhotosJson') as string
+  let realPhotos: string[] = []
+  if (existingRealPhotosJson) {
+    realPhotos = JSON.parse(existingRealPhotosJson)
+  }
+  const realPhotoFiles = formData.getAll('realPhotos') as File[]
+  for (const file of realPhotoFiles) {
+    const url = await uploadToR2(file, 'real-photos')
+    if (url) realPhotos.push(url)
+  }
+  updateData.realPhotos = realPhotos
+
   await prisma.product.update({
     where: { id },
     data: updateData
@@ -277,4 +301,38 @@ export async function updateSettings(formData: FormData) {
   }
 
   revalidatePath('/', 'layout')
+}
+
+// -- GALLERY PHOTOS --
+export async function uploadGalleryPhotos(formData: FormData) {
+  await checkAdmin()
+  const files = formData.getAll('photos') as File[]
+  const captions = formData.getAll('caption') as string[]
+
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i]
+    const url = await uploadToR2(file, 'gallery')
+    if (url) {
+      await prisma.galleryPhoto.create({
+        data: { url, caption: captions[i] || null }
+      })
+    }
+  }
+  revalidatePath('/admin/gallery')
+  revalidatePath('/gallery')
+}
+
+export async function deleteGalleryPhoto(id: string) {
+  await checkAdmin()
+  const photo = await prisma.galleryPhoto.findUnique({ where: { id } })
+  if (photo) {
+    // Delete from R2
+    try {
+      const key = new URL(photo.url).pathname.replace(/^\//, '')
+      await r2.send(new DeleteObjectCommand({ Bucket: process.env.R2_BUCKET_NAME!, Key: key }))
+    } catch {}
+    await prisma.galleryPhoto.delete({ where: { id } })
+  }
+  revalidatePath('/admin/gallery')
+  revalidatePath('/gallery')
 }

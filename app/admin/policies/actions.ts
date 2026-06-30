@@ -71,22 +71,7 @@ export async function updatePoliciesContent(formData: FormData) {
     })
   }
 
-  const heroSubtitle = formData.get('heroSubtitle') as string
-  const heroTitle = formData.get('heroTitle') as string
-  const heroExistingImage = formData.get('heroExistingImage') as string
-  const heroImageFile = formData.get('heroImageFile') as File | null
-
-  let finalHeroImage = heroExistingImage || ''
-  if (heroImageFile && heroImageFile.size > 0) {
-    finalHeroImage = await saveFile(heroImageFile)
-  }
-
   const data = { 
-    hero: {
-      subtitle: heroSubtitle,
-      title: heroTitle,
-      image: finalHeroImage
-    },
     sections 
   }
 

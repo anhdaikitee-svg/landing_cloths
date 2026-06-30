@@ -16,6 +16,11 @@ export default function EditProductForm({
   const [isPending, setIsPending] = useState(false)
   const [showSuccess, setShowSuccess] = useState(false)
   const [images, setImages] = useState<string[]>(product.images || [])
+  const [realPhotos, setRealPhotos] = useState<string[]>(product.realPhotos || [])
+
+  const removeRealPhoto = (index: number) => {
+    setRealPhotos(realPhotos.filter((_, i) => i !== index))
+  }
 
   const removeImage = (index: number) => {
     setImages(images.filter((_, i) => i !== index))
@@ -170,6 +175,33 @@ export default function EditProductForm({
           />
           <label htmlFor="isFeatured" className="text-sm text-gray-600 select-none cursor-pointer">Sản phẩm nổi bật (Hiện ở Trang Chủ)</label>
         </div>
+
+        {/* Real Photos Section */}
+        <div className="border-t pt-4 mt-2">
+          <label className="block text-sm font-medium text-gray-700 mb-2">📸 Ảnh Thực Tế Sản Phẩm</label>
+          <input type="hidden" name="existingRealPhotosJson" value={JSON.stringify(realPhotos)} />
+          {realPhotos.length > 0 ? (
+            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2 mb-3">
+              {realPhotos.map((img: string, i: number) => (
+                <div key={i} className="group relative border rounded overflow-hidden aspect-square bg-gray-50">
+                  <Image src={img} alt="" fill className="object-cover" sizes="100px" />
+                  <button
+                    type="button"
+                    onClick={() => removeRealPhoto(i)}
+                    className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center text-white text-xs font-bold transition"
+                  >
+                    ✕ Xóa
+                  </button>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-xs text-gray-400 italic mb-3">Chưa có ảnh thực tế.</p>
+          )}
+          <p className="text-xs text-gray-400 mb-2">Tải lên thêm ảnh thực tế (ảnh mới sẽ được thêm vào cuối):</p>
+          <input type="file" name="realPhotos" multiple accept="image/*" className="w-full border rounded px-3 py-2 text-sm bg-white focus:outline-none focus:ring-1 focus:ring-brand-dark" />
+        </div>
+
         <div className="pt-4 flex gap-4">
           <Link href="/admin/products" className="flex-1 text-center py-2 border rounded text-sm text-gray-600 hover:bg-gray-50 disabled:opacity-50 pointer-events-auto">
             Hủy

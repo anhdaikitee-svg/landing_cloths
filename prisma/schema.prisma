@@ -74,6 +74,7 @@ model Product {
   soldCount   Int            @default(0)
   isActive    Boolean        @default(true)
   isFeatured  Boolean        @default(false)
+  realPhotos  String[]       // Ảnh thực tế sản phẩm
   createdAt   DateTime       @default(now())
   updatedAt   DateTime       @updatedAt
 
@@ -83,6 +84,14 @@ model Product {
 
   @@index([categoryId])
   @@index([slug])
+}
+
+model GalleryPhoto {
+  id        String   @id @default(cuid())
+  url       String
+  caption   String?
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
 }
 
 model Cart {

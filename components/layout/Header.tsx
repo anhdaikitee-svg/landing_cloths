@@ -28,6 +28,8 @@ export default function Header({ session, siteName, siteLogo, categories = [] }:
       href: `/products?category=${c.slug}`,
       children: c.children || []
     })),
+    { label: 'ẢNH THỰC TẾ', href: '/gallery', children: [] },
+    { label: 'CHÍNH SÁCH', href: '/policies', children: [] },
     { label: 'VỀ CHÚNG TÔI', href: '/about', children: [] }
   ]
 

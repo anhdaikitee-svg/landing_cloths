@@ -2,7 +2,7 @@ import { redirect } from 'next/navigation'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import Link from 'next/link'
-import { LayoutDashboard, Tags, Package, LogOut, Home, Settings } from 'lucide-react'
+import { LayoutDashboard, Tags, Package, LogOut, Home, Settings, Images, FileText } from 'lucide-react'
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const session = await getServerSession(authOptions)
@@ -28,6 +28,12 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           </Link>
           <Link href="/admin/products" className="flex items-center gap-3 px-4 py-3 rounded hover:bg-gray-800 transition-colors text-sm">
             <Package size={18} /> Sản Phẩm
+          </Link>
+          <Link href="/admin/gallery" className="flex items-center gap-3 px-4 py-3 rounded hover:bg-gray-800 transition-colors text-sm">
+            <Images size={18} /> Ảnh Thực Tế
+          </Link>
+          <Link href="/admin/policies" className="flex items-center gap-3 px-4 py-3 rounded hover:bg-gray-800 transition-colors text-sm">
+            <FileText size={18} /> Chính Sách
           </Link>
           <Link href="/admin/about" className="flex items-center gap-3 px-4 py-3 rounded hover:bg-gray-800 transition-colors text-sm">
             <Tags size={18} /> Giới Thiệu

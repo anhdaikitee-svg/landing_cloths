@@ -7,11 +7,6 @@ export default function PoliciesAdminClient({ initialData, updateAction }: { ini
   const [isSaving, setIsSaving] = useState(false)
   const [showSuccess, setShowSuccess] = useState(false)
 
-  const [hero, setHero] = useState(initialData?.hero || {
-    subtitle: 'Câu chuyện của chúng tôi',
-    title: 'Hành Trình Kiến Tạo\nNghệ Thuật Sống',
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBrjk9xlAOfAwXX-SEAGHXYtZqvkWUkCh-k77fH-DW_te05pt9yGFdN6ScZe-2Bot6ttZPDyQXp8pm8UffzW17AmZgFschA2Q-VQhSpAGjjTTIYee4IxMCPoOgxd71cELviAwZq10pKPE4vftdjObz5FsmdsxGjE_jog4hs4SMFTocEyy8I3FeyYPydavDhCzIFAQ_VX_ypaHKmTdMHoxtOAPxfBYrPv3ecG0-ldeA8kpNT-Tymu_gO_6vEyddHJsc63VsbTCFHrxE'
-  })
   const [sections, setSections] = useState<any[]>(initialData?.sections || [
     { id: '1', title: initialData?.title1 || '', content: initialData?.content1 || '', image: initialData?.image1 || '' },
     { id: '2', title: initialData?.title2 || '', content: initialData?.content2 || '', image: initialData?.image2 || '' }
@@ -70,31 +65,6 @@ export default function PoliciesAdminClient({ initialData, updateAction }: { ini
       )}
       <form onSubmit={handleSubmit} className="space-y-8">
       <input type="hidden" name="sectionIds" value={sections.map(s => s.id).join(',')} />
-
-      {/* Hero Section */}
-      <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100 mb-8">
-        <h2 className="text-lg font-bold text-gray-800 mb-6 border-b pb-2">Phần Đầu Trang (Hero Section)</h2>
-        <div className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Dòng chữ nhỏ (Phụ đề)</label>
-            <input type="text" name="heroSubtitle" defaultValue={hero.subtitle} className="w-full border rounded px-4 py-2" required />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Tiêu đề chính</label>
-            <textarea name="heroTitle" defaultValue={hero.title} rows={2} className="w-full border rounded px-4 py-2" required />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Ảnh Banner chính</label>
-            {hero.image && (
-              <div className="mb-2">
-                <img src={hero.image} alt="Hero" className="w-48 object-cover rounded border bg-gray-50" />
-              </div>
-            )}
-            <input type="file" name="heroImageFile" accept="image/*" className="w-full border rounded px-4 py-2" />
-            <input type="hidden" name="heroExistingImage" value={hero.image || ''} />
-          </div>
-        </div>
-      </div>
 
       <div className="flex justify-between items-center mb-6">
         <p className="text-gray-500 text-sm">Kéo thả biểu tượng ≡ để thay đổi thứ tự các phần.</p>
