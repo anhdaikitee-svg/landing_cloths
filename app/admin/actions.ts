@@ -88,7 +88,23 @@ export async function deleteCategory(id: string) {
 export async function createProduct(formData: FormData) {
   await checkAdmin()
   const name = formData.get('name') as string
-  const slug = formData.get('slug') as string || slugify(name)
+  
+  let slug = formData.get('slug') as string || slugify(name)
+  let baseSlug = slug
+  let isUnique = false
+  let counter = 1
+  while (!isUnique) {
+    const existing = await prisma.product.findUnique({
+      where: { slug }
+    })
+    if (!existing) {
+      isUnique = true
+    } else {
+      slug = `${baseSlug}-${counter}`
+      counter++
+    }
+  }
+
   const description = formData.get('description') as string
   const price = parseFloat(formData.get('price') as string) || 0
   const categoryId = formData.get('categoryId') as string
