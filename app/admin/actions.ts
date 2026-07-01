@@ -67,7 +67,23 @@ async function deleteFromR2(url: string) {
 export async function createCategory(formData: FormData) {
   await checkAdmin()
   const name = formData.get('name') as string
-  const slug = formData.get('slug') as string || slugify(name)
+  
+  let slug = formData.get('slug') as string || slugify(name)
+  let baseSlug = slug
+  let isUnique = false
+  let counter = 1
+  while (!isUnique) {
+    const existing = await prisma.category.findUnique({
+      where: { slug }
+    })
+    if (!existing) {
+      isUnique = true
+    } else {
+      slug = `${baseSlug}-${counter}`
+      counter++
+    }
+  }
+
   const parentId = formData.get('parentId') as string || null
   await prisma.category.create({
     data: { name, slug, parentId }
