@@ -59,7 +59,7 @@ export default function ProductDetailClient({ product, related }: { product: Pro
           <Link href={`/products?category=${product.category.slug}`} className="inline-block bg-brand-gold text-white text-[10px] font-bold uppercase tracking-[0.2em] px-4 py-1.5 rounded-sm mb-6 hover:bg-brand-dark transition-colors">
             {product.category.name}
           </Link>
-          <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl text-brand-dark tracking-wide mb-6 leading-tight">
+          <h1 className="font-serif text-2xl md:text-3xl lg:text-4xl text-brand-dark tracking-wide mb-6 leading-tight">
             {product.name}
           </h1>
           <div className="flex items-center justify-center gap-4 text-gray-500 font-sans text-sm">
@@ -223,7 +223,7 @@ export default function ProductDetailClient({ product, related }: { product: Pro
         {/* Article Content */}
         <div className="max-w-3xl mx-auto">
           {/* Description */}
-          <div className="font-serif text-xl md:text-2xl text-brand-dark leading-relaxed italic text-center mb-16 whitespace-pre-line">
+          <div className="font-sans text-sm md:text-base text-gray-700 leading-loose mb-16 whitespace-pre-line">
             {product.description || 'Chi tiết sản phẩm đang được cập nhật.'}
           </div>
 
