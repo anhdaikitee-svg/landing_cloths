@@ -53,7 +53,7 @@ export default function ProductDetailClient({ product, related }: { product: Pro
   return (
     <div className="bg-brand-light min-h-screen pt-24 pb-32">
       <article className="max-w-5xl mx-auto px-6 md:px-12">
-        
+
         {/* Article Header */}
         <header className="text-center mb-12">
           <Link href={`/products?category=${product.category.slug}`} className="inline-block bg-brand-gold text-white text-[10px] font-bold uppercase tracking-[0.2em] px-4 py-1.5 rounded-sm mb-6 hover:bg-brand-dark transition-colors">
@@ -62,9 +62,6 @@ export default function ProductDetailClient({ product, related }: { product: Pro
           <h1 className="font-serif text-2xl md:text-3xl lg:text-4xl text-brand-dark tracking-wide mb-6 leading-tight">
             {product.name}
           </h1>
-          <div className="flex items-center justify-center gap-4 text-gray-500 font-sans text-sm">
-            <span>Viết bởi <span className="font-bold text-brand-dark">Ban Biên Tập</span></span>
-          </div>
         </header>
 
         {/* Hero Image Slider */}
@@ -74,20 +71,20 @@ export default function ProductDetailClient({ product, related }: { product: Pro
           {displayImages.length > 0 ? (
             <>
               {/* Blurred background backdrop */}
-              <Image 
-                src={displayImages[currentImageIndex]} 
-                alt="" 
-                fill 
-                className="object-cover blur-2xl opacity-25 scale-105 select-none pointer-events-none" 
+              <Image
+                src={displayImages[currentImageIndex]}
+                alt=""
+                fill
+                className="object-cover blur-2xl opacity-25 scale-105 select-none pointer-events-none"
               />
               {/* Main contained image */}
-              <Image 
-                src={displayImages[currentImageIndex]} 
-                alt={`${product.name} - ${currentImageIndex + 1}`} 
-                fill 
-                className="object-contain relative z-10 transition-opacity duration-300 pointer-events-none" 
-                priority 
-                sizes="100vw" 
+              <Image
+                src={displayImages[currentImageIndex]}
+                alt={`${product.name} - ${currentImageIndex + 1}`}
+                fill
+                className="object-contain relative z-10 transition-opacity duration-300 pointer-events-none"
+                priority
+                sizes="100vw"
               />
               {/* Transparent drag/swipe overlay */}
               {displayImages.length > 1 && (
@@ -103,19 +100,19 @@ export default function ProductDetailClient({ product, related }: { product: Pro
               )}
               {displayImages.length > 1 && (
                 <>
-                  <button 
+                  <button
                     onClick={prevImage}
                     className="absolute left-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 bg-white/80 backdrop-blur text-brand-dark rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white shadow-sm"
                   >
                     <ChevronLeft size={24} />
                   </button>
-                  <button 
+                  <button
                     onClick={nextImage}
                     className="absolute right-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 bg-white/80 backdrop-blur text-brand-dark rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white shadow-sm"
                   >
                     <ChevronRight size={24} />
                   </button>
-                  
+
                   {/* Dots indicator */}
                   <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-30">
                     {displayImages.map((_, idx) => (
@@ -141,9 +138,8 @@ export default function ProductDetailClient({ product, related }: { product: Pro
               <button
                 key={idx}
                 onClick={() => setCurrentImageIndex(idx)}
-                className={`relative flex-shrink-0 w-20 h-20 sm:w-24 sm:h-24 rounded-lg overflow-hidden border-2 transition-all snap-center ${
-                  idx === currentImageIndex ? 'border-brand-dark shadow-md' : 'border-transparent opacity-60 hover:opacity-100'
-                }`}
+                className={`relative flex-shrink-0 w-20 h-20 sm:w-24 sm:h-24 rounded-lg overflow-hidden border-2 transition-all snap-center ${idx === currentImageIndex ? 'border-brand-dark shadow-md' : 'border-transparent opacity-60 hover:opacity-100'
+                  }`}
               >
                 <Image src={img} alt={`Thumbnail ${idx + 1}`} fill className="object-cover" sizes="96px" />
               </button>

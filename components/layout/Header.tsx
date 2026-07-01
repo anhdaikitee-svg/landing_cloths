@@ -46,7 +46,7 @@ export default function Header({ session, siteName, siteLogo, categories = [] }:
 
   return (
     <header
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white/95 backdrop-blur-sm shadow-sm py-4' : 'bg-transparent py-6'
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white/95 backdrop-blur-sm shadow-sm' : 'bg-transparent'
         }`}
     >
       <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between">
@@ -61,9 +61,9 @@ export default function Header({ session, siteName, siteLogo, categories = [] }:
         {/* Brand Logo */}
         <Link href="/" className="flex-1 md:flex-none text-center md:text-left">
           {siteLogo ? (
-            <img src={siteLogo} alt={siteName || "Logo"} className="h-8 md:h-10 mx-auto md:mx-0 object-contain" />
+            <img src={siteLogo} alt={siteName || "Logo"} className="h-14 md:h-20 mx-auto md:mx-0 object-contain" />
           ) : (
-            <span className="font-serif text-2xl md:text-3xl font-bold tracking-widest text-brand-dark">
+            <span className="font-serif text-3xl md:text-4xl font-bold tracking-widest text-brand-dark">
               {siteName || "WIN WIN"}
             </span>
           )}
